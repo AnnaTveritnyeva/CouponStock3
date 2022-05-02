@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Router, Switch} from 'react-router-dom';
+import { Redirect, Route, Switch} from 'react-router-dom';
 import AllCouponsPage from '../pages/AllCouponsPage';
 import CartPage from '../pages/CartPage';
 import CompanyPage from '../pages/CompanyPage';
@@ -16,8 +16,8 @@ function Main(): JSX.Element {
         <div>  
         <Switch>
             <Route path="/home" component ={HomePage}  exact/>
-            <Route path="/coupon" component = {CouponPage} exact/>
-            <Route path="/company" component={CompanyPage} exact/>
+            <Route path="/coupon/:couponId" component = {CouponPage} exact/>
+            <Route path="/company/:companyName" component={CompanyPage} exact/>
             <Route path="/allCoupons" component={AllCouponsPage} exact/>
             <Route path="/user" component={UserPage} exact/>
             <Route path="/cart" component={CartPage} exact/>

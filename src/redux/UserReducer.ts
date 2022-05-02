@@ -1,7 +1,6 @@
 import Company from "../model/Company";
 import { Coupon } from "../model/Coupon";
 import { Role } from "../model/Role";
-import { GuestActionType } from "./actions/GuestActions";
 import { myAction } from "./actions/myAction";
 import { UserActionType } from "./actions/UserActions";
 
@@ -25,6 +24,5 @@ export function UserReducer(state: UserState = initialState, action: myAction): 
             //code...
             break;
     }
-    console.log(newState)
     return newState;
 }
