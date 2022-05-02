@@ -5,8 +5,8 @@ export class Coupon {
     public companyId: number = 0;
     public title: string = "";
     public description: string = "";
-    public startDate: string = "";
-    public endDate: string = "";
+    public startDate: Date = new Date();
+    public endDate: Date = new Date();
     public amount: number = 0;
     public price: number = 0;
     public image:string = "";

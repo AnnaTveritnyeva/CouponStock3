@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Router, Switch} from 'react-router-dom';
 import AllCouponsPage from '../pages/AllCouponsPage';
 import CartPage from '../pages/CartPage';
 import CompanyPage from '../pages/CompanyPage';
@@ -13,32 +13,18 @@ import UserPage from '../pages/UserPage';
 
 function Main(): JSX.Element {
     return (
-        <BrowserRouter>
+        <div>  
         <Switch>
-            <Route path="/home" exact>
-                <HomePage />
-            </Route>
-            <Route path="/coupon" exact>
-                <CouponPage />
-            </Route>
-            <Route path="/company" exact>
-                <CompanyPage />
-            </Route>
-            <Route path="/allCoupons" exact>
-                <AllCouponsPage />
-            </Route>
-            <Route path="/user" exact>
-                <UserPage />
-            </Route>
-            <Route path="/cart" exact>
-                <CartPage />
-            </Route>
+            <Route path="/home" component ={HomePage}  exact/>
+            <Route path="/coupon" component = {CouponPage} exact/>
+            <Route path="/company" component={CompanyPage} exact/>
+            <Route path="/allCoupons" component={AllCouponsPage} exact/>
+            <Route path="/user" component={UserPage} exact/>
+            <Route path="/cart" component={CartPage} exact/>
             <Redirect from="/" to="/home" exact />
-            <Route>
-                <Page404 />
-            </Route>
+            <Route component={Page404}/>
         </Switch>
-        </BrowserRouter>
+        </div>
     )
 }
 
