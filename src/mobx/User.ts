@@ -3,7 +3,6 @@ import { Coupon } from "../model/Coupon";
 import { Role } from "../model/Role";
 
 export class User {
-    email:string = "";
     role:Role = Role.GUEST;
     token:string = "";
     couponsInCart: Coupon[] = []
@@ -11,18 +10,18 @@ export class User {
     constructor() {
         makeObservable(this, {
             couponsInCart:observable,
-            addCouponToCart: action,
+            AddCouponToCart: action,
         })
     }
 
-    addCouponToCart = (newCoupon: Coupon) => {
+    AddCouponToCart = (newCoupon: Coupon) => {
         if (!this.couponsInCart.some(coupon => coupon === newCoupon)){
             this.couponsInCart.push(newCoupon);
         }
         
     }
 
-    deleteCouponFromCart = (couponId:number) =>{
+    DeleteCouponFromCart = (couponId:number) =>{
         this.couponsInCart = this.couponsInCart.filter(coupon=> couponId !== coupon.id)
     }
 }
