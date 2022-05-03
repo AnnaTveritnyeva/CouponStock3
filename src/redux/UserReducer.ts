@@ -1,4 +1,3 @@
-import Company from "../model/Company";
 import { Coupon } from "../model/Coupon";
 import { Role } from "../model/Role";
 import { myAction } from "./actions/myAction";
