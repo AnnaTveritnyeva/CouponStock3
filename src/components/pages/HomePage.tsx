@@ -2,12 +2,13 @@ import React from 'react';
 import { NavLink} from 'react-router-dom';
 import Company from '../../model/Company';
 import { Coupon } from '../../model/Coupon';
+import { getAllCompanies, getAllCoupons } from '../../redux/selector';
 import store from '../../redux/store';
 import CouponItem from '../items/CouponItem';
 
 function HomePage(): JSX.Element {
-    const companies: Company[] = store.getState().guest.companies
-    const coupons: Coupon[] = store.getState().guest.coupons
+    const companies: Company[] = getAllCompanies()
+    const coupons: Coupon[] = getAllCoupons()
     return (
         <div>
             Home

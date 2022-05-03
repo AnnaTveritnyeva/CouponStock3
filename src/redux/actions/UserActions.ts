@@ -12,6 +12,6 @@ export function addCouponToCart(coupon:Coupon): myAction {
 }
 
 //maybe better to work with coupon id instead of whole coupon
-export function deleteCouponFromCart(coupon:Coupon): myAction {
-    return { type: UserActionType.DELETE_COUPON_FROM_CART , payload:coupon}
+export function deleteCouponFromCart(couponId:number): myAction {
+    return { type: UserActionType.DELETE_COUPON_FROM_CART , payload:couponId}
 }

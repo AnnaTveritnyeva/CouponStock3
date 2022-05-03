@@ -1,10 +1,7 @@
-import { GuestReducer } from "./GuestReducer";
 import {combineReducers, legacy_createStore as createStore} from "redux"
-import { UserReducer } from "./UserReducer";
+import { GuestReducer } from "./reducers/GuestReducer";
+import { UserReducer } from "./reducers/UserReducer";
 
- 
-
- 
 const reducers = combineReducers({guest:GuestReducer, user: UserReducer})
 
 const store = createStore(reducers);

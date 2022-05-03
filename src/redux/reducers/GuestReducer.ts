@@ -1,7 +1,8 @@
-import Company from "../model/Company";
-import { Coupon } from "../model/Coupon";
-import { GuestActionType } from "./actions/GuestActions";
-import { myAction } from "./actions/myAction";
+import Company from "../../model/Company";
+import { Coupon } from "../../model/Coupon";
+import { GuestActionType } from "../actions/GuestActions";
+import { myAction } from "../actions/myAction";
+
 
 export interface GuestState {
     coupons: Coupon[];
