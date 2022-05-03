@@ -7,18 +7,11 @@ interface CouponItemProps{
 }
 
 function CouponItem (props:CouponItemProps):JSX.Element{
-    const addToCart = ()=>{
-        if(!store.getState().user.couponsInCart.some(coupon => coupon === props.coupon) ){
-            store.dispatch(addCouponToCart(props.coupon))
-        }else{
-            console.log("already added coupon to cart")
-        }
-    }
     
 return(
     <div>
         {props.coupon.title}
-        <button onClick={addToCart}
+        <button onClick={() => store.dispatch(addCouponToCart(props.coupon))}
         >
             Add To Cart
         </button>

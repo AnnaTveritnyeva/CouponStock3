@@ -18,15 +18,12 @@ export function UserReducer(state: UserState = initialState, action: myAction): 
     const newState: UserState = { ...state };
     switch (action.type) {
         case UserActionType.ADD_COUPON_TO_CART:
-            newState.couponsInCart.push(action.payload)
+            if(!newState.couponsInCart.some(coupon => coupon === action.payload)){
+                newState.couponsInCart.push(action.payload)
+            }
             break;
         case UserActionType.DELETE_COUPON_FROM_CART:
-            console.log("before dispatching: ")
-            newState.couponsInCart.map(coupon=> console.log(coupon))
-
             newState.couponsInCart = newState.couponsInCart.filter(coupon => coupon.id !== action.payload)
-            console.log("after dispatching: ")
-            newState.couponsInCart.map(coupon=> console.log(coupon))
             break;
     }
     return newState;

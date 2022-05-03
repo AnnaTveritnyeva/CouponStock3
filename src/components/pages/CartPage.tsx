@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Coupon } from '../../model/Coupon';
 import { deleteCouponFromCart } from '../../redux/actions/UserActions';
 import { getCouponsInCart } from '../../redux/selector';
