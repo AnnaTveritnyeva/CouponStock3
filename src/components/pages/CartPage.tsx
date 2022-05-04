@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Coupon } from '../../model/Coupon';
-import { DeleteCouponFromCart } from '../../redux/actions/UserActions';
-import { getCouponsInCart } from '../../redux/selector';
+import { deleteCouponFromCart } from '../../redux/actions/UserActions';
+import { GetCartCoupons } from '../../redux/selector';
 import store from '../../redux/store';
 
 function Cart(): JSX.Element {
-    const [coupons, setCoupons] = useState<Coupon[]>(getCouponsInCart());
+    const [coupons, setCoupons] = useState<Coupon[]>(GetCartCoupons());
 
     const deleteCoupon = (couponId: number) => {
-        store.dispatch(DeleteCouponFromCart(couponId))
-        setCoupons(getCouponsInCart())
+        store.dispatch(deleteCouponFromCart(couponId))
+        setCoupons(GetCartCoupons())
     }
 
     return (

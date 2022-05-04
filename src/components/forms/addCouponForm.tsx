@@ -1,16 +1,23 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { CompanyAxios } from "../../axios";
 import { CategoryValue } from "../../model/Category";
 import { Coupon } from "../../model/Coupon";
+import { AddCoupon } from "../../redux/selector";
 
 function AddCouponForm(): JSX.Element {
     const { register, handleSubmit } = useForm<Coupon>();
     const [category, setCategory] = useState<string>()
 
     const onSubmit: SubmitHandler<Coupon> = (data) => {
-        console.log(data)
-        //CompanyAxius.addCoupon(data)
+        CompanyAxios.addCoupon(data)
+        .then(()=> {
+            AddCoupon(data)
+            console.log("added new coupon")
+    
+    })
+        .catch(err=>console.log(err))
     }
 
     const handleCategoryChange = (args: SyntheticEvent) => {

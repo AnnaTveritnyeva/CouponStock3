@@ -2,36 +2,32 @@ import React, { useEffect, useState } from 'react';
 import Footer from './components/layout/Footer';
 import Main from './components/layout/Main';
 import Navbar from './components/layout/Navbar';
-import Company from './model/Company';
-import { Coupon } from './model/Coupon';
-import { updateAllCompanies, updateAllCoupons } from './redux/actions/GuestActions';
-import store from './redux/store';
-import axios from "axios"
 import { BrowserRouter } from 'react-router-dom';
+import { GuestAxios } from './axios';
+import {  UpdateAllCompanies, UpdateAllCoupons } from './redux/selector';
 
 function App(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
 
   const getServerData = () => {
-    axios.get<Coupon[]>("http://localhost:8080/guest/getAllCoupons")
+    console.log("im updating........")
+    GuestAxios.getAllCoupons()
       .then(res => {
-        store.dispatch(updateAllCoupons(res.data))
-        //setLoading(false)
+        UpdateAllCoupons(res.data)
       }
       );
 
-      axios.get<Company[]>("http://localhost:8080/guest/getAllCompanies")
+      GuestAxios.getAllCompanies()
       .then(res => {
-        store.dispatch(updateAllCompanies(res.data))
+       UpdateAllCompanies(res.data)
         setLoading(false)
       }
-      );
-      
+      );   
   }
 
   useEffect(() => {
     getServerData();
-  }, [loading])
+  }, [])
 
   return (
     <div className="App">

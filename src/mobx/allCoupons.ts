@@ -7,11 +7,11 @@ export class AllCoupons {
     constructor() {
         makeObservable(this, {
             coupons: observable,
-            updateCoupons: action,
+            UpdateAllCoupons: action,
         })
     }
 
-    updateCoupons = (coupons: Coupon[]) => {
+    UpdateAllCoupons = (coupons: Coupon[]) => {
         this.coupons = coupons;
     }
 }

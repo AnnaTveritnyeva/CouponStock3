@@ -1,13 +1,10 @@
-import { Button, Select, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import axios from "axios";
-import { Notyf } from "notyf";
+import { Button, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginAxios } from "../../axios";
 import { Role, RoleValues } from "../../model/Role";
 import { UserCred } from "../../model/UserCred";
-import { Login } from "../../redux/actions/UserActions";
-import store from "../../redux/store";
+import { Login } from "../../redux/selector";
 
 
 function LoginForm(): JSX.Element {
@@ -16,9 +13,9 @@ function LoginForm(): JSX.Element {
 
     const onSubmit: SubmitHandler<UserCred> = (data) => {
         LoginAxios.Login(data)
-            .then(res => store.dispatch(Login( data.role, res.headers["authorization"])))
-            .catch(err=>{
-               console.log(err)
+            .then(res => Login(data.role, res.headers["authorization"]))
+            .catch(err => {
+                console.log(err)
             })
     }
 
@@ -41,13 +38,13 @@ function LoginForm(): JSX.Element {
                     defaultValue={1}
                     color="secondary"
                 >
-                    <ToggleButton value={3} aria-label="3" selected={role == RoleValues[3]}>
+                    <ToggleButton value={3} aria-label="3" selected={role === RoleValues[3]}>
                         {Role.ADMIN}
                     </ToggleButton>
-                    <ToggleButton value={2} aria-label="2" selected={role == RoleValues[2]}>
+                    <ToggleButton value={2} aria-label="2" selected={role === RoleValues[2]}>
                         {Role.COMPANY}
                     </ToggleButton>
-                    <ToggleButton value={1} aria-label="1" selected={role == RoleValues[1]}>
+                    <ToggleButton value={1} aria-label="1" selected={role === RoleValues[1]}>
                         {Role.CUSTOMER}
                     </ToggleButton>
                 </ToggleButtonGroup>

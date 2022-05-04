@@ -1,21 +1,20 @@
 import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { AdminAxios } from "../../axios";
 import Customer from "../../model/Customer";
+import { AddCustomer } from "../../redux/selector";
 
 function AddCustomerForm(): JSX.Element {
     const { register, handleSubmit } = useForm<Customer>();
 
     const onSubmit: SubmitHandler<Customer> = (data) => {
-        console.log(data)
-        // axios.post("http://localhost:8080/admin/addCustomer", 
-        //  data,
-        //  {headers: {'Autorization' : 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwic3ViIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjUxNTE0MTQ2LCJleHAiOjE2NTE1MTU5NDZ9.CoxmJjpq8CI8Pyy3IDb7vO-pkmDMHBlOXK-xmgB4gpY'}}
-        // )
-        // .then(res=> console.log(res))
-        // .catch(err=> {})
-
-       // AdminAxios.addCustomer(data)
+        AdminAxios.addCustomer(data)
+            .then(() => {
+                AddCustomer(data)
+                console.log("added Customer")
+            })
+            .catch(err => console.log(err))
     }
 
     return (

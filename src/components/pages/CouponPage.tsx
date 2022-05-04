@@ -1,17 +1,17 @@
 import React from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { Coupon } from '../../model/Coupon';
-import store from '../../redux/store';
+import { GetCoupons } from '../../redux/selector';
 import Page404 from './Page404';
 
 function CouponPage(): JSX.Element {
-    const coupon: Coupon = useLocation().state as Coupon;
-    const exists: Boolean = store.getState().guest.coupons.some(coupon => coupon === coupon);
+    const myCoupon: Coupon = useLocation().state as Coupon;
+    const exists: Boolean = GetCoupons().some(coupon => coupon === myCoupon);
 
-    if (typeof (coupon) !== undefined) {
+    if (typeof (myCoupon) !== undefined) {
         return (
             <div>
-                <h4>{coupon.title} Page </h4>
+                <h4>{myCoupon.title} Page </h4>
             </div>
         )
     }

@@ -1,8 +1,10 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { CompanyAxios } from "../../axios";
 import { CategoryValue } from "../../model/Category";
 import { Coupon } from "../../model/Coupon";
+import { UpdateCoupon } from "../../redux/selector";
 interface UpdateCouponProps{
     coupon:Coupon
 }
@@ -12,7 +14,12 @@ function UpdateCouponForm(props:UpdateCouponProps): JSX.Element {
 
     const onSubmit: SubmitHandler<Coupon> = (data) => {
         console.log(data)
-       //CompanyAxius.updateCoupon(data);
+       CompanyAxios.updateCoupon(data)
+       .then(() => {
+            UpdateCoupon(data)
+            console.log("coupon succsessfully updated")
+    })
+       .catch(err=> console.log(err))
     }
 
     const handleCategoryChange = (args: SyntheticEvent) => {

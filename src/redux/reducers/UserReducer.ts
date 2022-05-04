@@ -9,7 +9,7 @@ export interface UserState {
     couponsInCart: Coupon[];
 }
 
-export const initialState: UserState = { role: Role.GUEST, JWTtoken: "", couponsInCart: [] }
+export const initialState: UserState = { role: Role.GUEST, JWTtoken: "no-token", couponsInCart: [] }
 
 
 export function UserReducer(state: UserState = initialState, action: myAction): UserState {
@@ -23,7 +23,7 @@ export function UserReducer(state: UserState = initialState, action: myAction): 
 
         case UserActionType.LOGOUT:
             newState.role = Role.GUEST
-            newState.JWTtoken = ""
+            newState.JWTtoken = "no-token"
             break;
 
         case UserActionType.UPDATE_TOKEN:

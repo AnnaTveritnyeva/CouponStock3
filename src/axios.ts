@@ -4,7 +4,7 @@ import Company from "./model/Company";
 import { Coupon } from "./model/Coupon";
 import Customer from "./model/Customer";
 import { UserCred } from "./model/UserCred";
-import { UpdateJwtToken } from "./redux/actions/UserActions";
+import { updateJwt } from "./redux/actions/UserActions";
 import store from "./redux/store";
 
 const instance = axios.create({
@@ -21,7 +21,7 @@ request.headers = {"authorization": store.getState().user.JWTtoken}
 })
 
 instance.interceptors.response.use(response =>{
-    store.dispatch(UpdateJwtToken(response.headers["authorization"]))
+    store.dispatch(updateJwt(response.headers["authorization"]))
     return response;
 })
 
@@ -60,7 +60,7 @@ export const AdminAxios = {
 }
 
 
-export const CompanyAxius = {
+export const CompanyAxios = {
     addCoupon(coupon: Coupon) {
         return instance.post("company/addCoupon", coupon);
     },
