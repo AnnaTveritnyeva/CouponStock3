@@ -16,11 +16,12 @@ function Cart(): JSX.Element {
         <div>
             <h1> Cart </h1>
             {coupons.map(coupon =>
-                <div key={coupon.id}> {coupon.title}
+                <span key={coupon.id}> {coupon.title}
                     <button onClick={() => deleteCoupon(coupon.id)}>
                         delete from cart
                     </button>
-                </div>
+                    <br/>
+                </span>
             )}
         </div>
     )

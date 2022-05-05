@@ -3,19 +3,23 @@ import { Redirect, useLocation } from 'react-router-dom';
 import Company from '../../model/Company';
 import { GetCompanies } from '../../redux/selector';
 import UpdateCompanyForm from '../forms/UpdateCompanyForm';
+import CouponItem from '../items/CouponItem';
 import Page404 from './Page404';
 
 function CompanyPage(): JSX.Element {
     //maybe theres a better and faster way to do that
     const myCompany = useLocation().state as Company;
     //see if we need the exists
-    const exists: Boolean = GetCompanies().some(company => company === myCompany);
+    const exists: Boolean = GetCompanies().some(company => company.id === myCompany.id);
 
-    if (typeof (myCompany) !== undefined) {
+    if (exists) {
         return (
             <div>
                 <h4>{myCompany.name} Page</h4>
-                <UpdateCompanyForm company={myCompany}/>
+                <h5>Company Coupons: </h5>
+                {myCompany.coupons.map(coupon=> 
+                <CouponItem key={coupon.id} coupon={coupon}/>
+                )}
             </div>
         )
     }

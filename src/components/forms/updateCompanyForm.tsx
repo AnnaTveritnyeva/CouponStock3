@@ -14,10 +14,10 @@ function UpdateCompanyForm(props: UpdateCompanyProps): JSX.Element {
     const { register, setValue, handleSubmit } = useForm<Company>();
 
     const onSubmit: SubmitHandler<Company> = (data) => {
-        if (data.password === "") {
-            data.password = props.company.password;
-        }
-        console.log(data)
+        // if (data.password === "") {
+        //     data.password = props.company.password;
+        // }
+       
         AdminAxios.updateCompany(data)
             .then(() => {
                 console.log("company updated")

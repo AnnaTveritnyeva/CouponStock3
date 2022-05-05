@@ -31,8 +31,9 @@ export function UserReducer(state: UserState = initialState, action: myAction): 
             break;
 
         case UserActionType.ADD_COUPON_TO_CART:
-            if (!newState.couponsInCart.some(coupon => coupon === action.payload)) {
-                newState.couponsInCart.push(action.payload)
+            const newCoupon = action.payload as Coupon;
+            if (!newState.couponsInCart.some(coupon => coupon.id === newCoupon.id)) {
+                newState.couponsInCart.push(newCoupon)
             }
             break;
 

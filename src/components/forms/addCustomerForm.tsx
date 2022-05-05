@@ -22,7 +22,7 @@ function AddCustomerForm(): JSX.Element {
             <TextField label="firstName" variant="outlined" {...register("firstName", { required: true })} required />
             <TextField label="LastName" variant="outlined" {...register("lastName", { required: true })} required />
             <TextField label="email" type="email" variant="outlined" {...register("email", { required: true })} required />
-            <TextField label="password" type="password" variant="outlined" {...register("password", { required: true })} required />
+            {/* <TextField label="password" type="password" variant="outlined" {...register("password", { required: true })} required /> */}
             <Button type="submit" color="primary">Send</Button>
         </form>
     );

@@ -31,14 +31,15 @@ function HomePage(): JSX.Element {
 
             New Coupons:
             {coupons.slice(coupons.length - 5, coupons.length).map(coupon =>
-                <div key={coupon.id}>
+                <span key={coupon.id}>
                     <NavLink exact to={{
                         pathname: "/coupon/:" + coupon.id, state: coupon
                     }}>
                         {coupon.title}
                     </NavLink>
-                    <CouponItem coupon={coupon} />
-                </div>
+                    <CouponItem key={coupon.id} coupon={coupon} />
+                    <br/>
+                </span>
             )}
 
         </div>
