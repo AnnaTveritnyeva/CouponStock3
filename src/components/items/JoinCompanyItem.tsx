@@ -1,7 +1,6 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { theme } from "../../theme";
-import "./JoinCompanyItem.css";
 import SingleCard from "./SingleCard";
 
 const UseStyles = makeStyles({

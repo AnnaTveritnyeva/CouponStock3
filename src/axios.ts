@@ -118,6 +118,12 @@ export const GuestAxios = {
     getAllCompanies(){
         return instance.get<Company[]>("guest/getAllCompanies");
     },
+    getCompanyCouponsByCatefory(companyId:number, category: Category){
+        return instance.get<Coupon[]>("guest/getCompanyCouponsByCategory/"+companyId+"/"+ category)
+    },
+    getCompanyCouponsByMaxPrice(companyId:number, maxPrice: number){
+        return instance.get<Coupon[]>("guest/getCompanyCouponsByMaxPrice/"+ companyId+"/"+ maxPrice)
+    }
 
 }
 

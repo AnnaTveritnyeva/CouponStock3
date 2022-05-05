@@ -1,4 +1,3 @@
-import "./NewsletterItem.css";
 import makeStyles from "@mui/styles/makeStyles";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { theme } from "../../theme";

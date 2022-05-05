@@ -1,5 +1,7 @@
-import React from 'react';
+import { Grid } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { Redirect, Route, Switch} from 'react-router-dom';
+import { theme } from '../../theme';
 import AllCouponsPage from '../pages/AllCouponsPage';
 import CartPage from '../pages/CartPage';
 import CompanyPage from '../pages/CompanyPage';
@@ -11,10 +13,53 @@ import UserPage from '../pages/UserPage';
 //1. see if better separate the routing logic from the main
 //2. see if there a ,ore progrsive way to write the router
 
+const UseStyles = makeStyles({
+    container: {
+        width: '100vw',
+        minHeight: '100vh',
+        paddingTop: theme.spacing(3),
+        paddingBottom: '5%',
+        backgroundColor: theme.palette.secondary.light
+    },
+    mainPageImageBox: {
+        display: 'flex',
+        justifyContent: 'center',
+        //justifySelf:'center'
+    },
+    mainPageImage: {
+        width: '100%',
+        height: '400px',
+        [theme.breakpoints.only("xs")]: {
+            height: '180px'
+        },
+        [theme.breakpoints.only("sm")]: {
+            height: '250px'
+        },
+        [theme.breakpoints.only("md")]: {
+            height: '300px'
+        },
+        [theme.breakpoints.up("md")]: {
+            height: '450px'
+        },
+        [theme.breakpoints.only("xl")]: {
+            height: '600px'
+        },
+
+    },
+
+
+})
 function Main(): JSX.Element {
+    const classes = UseStyles();
+
     return (
-        <div>  
-        <Switch>
+      
+            <Grid container className={classes.container}>
+            <Grid item xs={1} >
+            </Grid>
+            <Grid item xs={10} > 
+  
+            <Switch>
             <Route path="/home" component ={HomePage}  exact/>
             <Route path="/coupon/:couponId" component = {CouponPage} exact/>
             <Route path="/company/:companyName" component={CompanyPage} exact/>
@@ -24,7 +69,13 @@ function Main(): JSX.Element {
             <Redirect from="/" to="/home" exact />
             <Route component={Page404}/>
         </Switch>
-        </div>
+                  
+               
+            </Grid>
+            <Grid item xs={1} >
+            </Grid> 
+        </Grid>
+
     )
 }
 

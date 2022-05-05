@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import Man from "../../../assets/man.svg"
+import Man from "../../assets/man.svg"
 import { Coupon } from "../../model/Coupon";
 import CouponItem from "./CouponItem";
 

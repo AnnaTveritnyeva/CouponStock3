@@ -1,8 +1,9 @@
 import { Box, CardMedia, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { SyntheticEvent } from "react";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import Company from "../../model/Company";
 import { theme } from "../../theme";
-import "./CompanyItem.css";
 
 interface CompanyProps {
     company: Company;
@@ -63,11 +64,20 @@ const UseStyles = makeStyles({
 });
 
 
+
+
 function CompanyCardItem(props: CompanyProps): JSX.Element {
     const classes = UseStyles();
 
+    const history = useHistory();
+
+    const handleClick = () => {
+        history.push({
+            pathname: "/company/:" + props.company.name, state: props.company });
+    }
+
     return (
-        <Box className={classes.box}>
+        <Box className={classes.box} onClick={handleClick}>
             <Box className={classes.companyBox}>
                 <Box className={classes.card}>
                     <CardMedia

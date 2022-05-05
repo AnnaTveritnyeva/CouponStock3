@@ -1,7 +1,6 @@
 import { Card, CardContent, Divider, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { theme } from "../../theme";
-import "./SingleCard.css";
 
 interface SingleCardProps {
     title: string,
