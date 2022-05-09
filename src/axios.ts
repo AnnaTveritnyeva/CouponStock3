@@ -11,17 +11,20 @@ const instance = axios.create({
     baseURL: 'http://localhost:8080/',
     timeout: 3000,
     // check if like this or with interceptors
-    headers:  {"authorization": store.getState().user.JWTtoken}
+   // headers:  {"authorization": store.getState().user.JWTtoken}
 });
 
 
 instance.interceptors.request.use(request =>{
 request.headers = {"authorization": store.getState().user.JWTtoken}
+console.log(store.getState().user.JWTtoken)
     return request;
 })
 
 instance.interceptors.response.use(response =>{
-    store.dispatch(updateJwt(response.headers["authorization"]))
+    if (response.headers["authorization"] !== undefined){
+        store.dispatch(updateJwt(response.headers["authorization"]))
+    }
     return response;
 })
 
@@ -86,7 +89,7 @@ export const CompanyAxios = {
 
 export const CustomerAxios = {
     addPurchase(coupon: Coupon) {
-        return instance.post("customer/addPurchase", coupon);
+        return instance.put("customer/couponPurchase", coupon);
     },
     getCustomerCoupons() {
         return instance.get<Coupon[]>("customer/getCustomerCoupons");
@@ -99,7 +102,12 @@ export const CustomerAxios = {
     },
     getCustomerDetails() {
         return instance.get<Customer>("customer/getCustomerDetails");
-    }
+    },
+    purchaseCoupons(coupons: Coupon[]) {
+        return instance.put("customer/purchaseListOfCoupons", coupons);
+    },
+
+    
 }
 
 export const GuestAxios = {
@@ -124,7 +132,6 @@ export const GuestAxios = {
     getCompanyCouponsByMaxPrice(companyId:number, maxPrice: number){
         return instance.get<Coupon[]>("guest/getCompanyCouponsByMaxPrice/"+ companyId+"/"+ maxPrice)
     }
-
 }
 
 export const LoginAxios = {

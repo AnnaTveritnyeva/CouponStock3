@@ -23,6 +23,10 @@ export const GetCartCoupons = (): Coupon[] => {
     return store.getState().user.couponsInCart
 }
 
+export const getUserRole = ()=>{
+    return store.getState().user.role
+}
+
 
 //update
 export const UpdateAllCoupons = (coupons: Coupon[]) => {

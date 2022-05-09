@@ -132,7 +132,8 @@ function CouponItem(props: CouponItemProps): JSX.Element {
                             only {props.coupon.amount} left!
                         </Typography>
                         <Typography variant="caption" align="right" color={theme.palette.secondary.dark}>
-                            expiration date: {props.coupon.endDate}
+                            {/* after reloading shows the date not formated */}
+                            expiration date: { props.coupon.endDate}
                         </Typography>
                     </div>
                 </Grid>

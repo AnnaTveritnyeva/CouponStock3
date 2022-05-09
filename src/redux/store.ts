@@ -6,7 +6,7 @@ const reducers = combineReducers({guest:GuestReducer, user: UserReducer})
 //see if there's anothe better, way to do that 
 //make state persist on refreshed
 function saveToLocalStorage(store: EmptyObject & {
-    guest: GuestState;
+    //guest: GuestState;
     user: UserState;
 }) {
     try {

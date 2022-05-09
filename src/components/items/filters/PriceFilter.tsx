@@ -25,22 +25,15 @@ function PriceFilter(props: PriceFilterProps): JSX.Element {
     const classes = UseStyles();
 
     const getMaxPrice = (): number => {
-        // let maxPrice: number = 0;
-        // props.coupons.forEach(coupon => {
-        //     if (coupon.price > maxPrice) {
-        //         maxPrice = coupon.price
-        //     }
-        // })
-        // return maxPrice
-
-        return Math.max(...props.coupons.map(coupon=>  { return coupon.price; }));
+        return  Math.max(...props.coupons.map(coupon=>  { return coupon.price; }));
     }
 
     const getMinPrice = (): number => {
         return Math.min(...props.coupons.map(coupon=>  { return coupon.price; }));
     }
 
-    const [price, setPrice] = useState(getMaxPrice());
+    const [price, setPrice] = useState<number>(getMaxPrice());
+
     const { setValue, handleSubmit, reset } = useForm<PriceFilterModel>({
         defaultValues:{
             price: getMaxPrice()

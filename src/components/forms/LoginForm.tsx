@@ -28,10 +28,11 @@ function LoginForm(): JSX.Element {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
 
-            <TextField label="email" type="email" variant="outlined" {...register("email", { required: true })} required />
-            <TextField label="password" type="password" variant="outlined" {...register("password", { required: true })} required />
+            <TextField  fullWidth label="email" type="email" variant="outlined" {...register("email", { required: true })} required />
+            <TextField fullWidth label="password" type="password" variant="outlined" {...register("password", { required: true })} required />
             <div {...register("role")}>
                 <ToggleButtonGroup
+                    fullWidth
                     value={role}
                     exclusive={true}
                     onChange={handleRole}
