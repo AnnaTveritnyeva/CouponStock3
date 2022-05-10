@@ -12,7 +12,10 @@ export enum GuestActionType {
     ADD_CUSTOMER = "ADD_CUSTOMER",
     UPDATE_COMPANY = "UPDATE_COMPANY",
     UPDATE_COUPON = "UPDATE_COUPON",
-    UPDATE_CUSTOMER = "UPDATE_CUSTOMER"
+    UPDATE_CUSTOMER = "UPDATE_CUSTOMER",
+    DELETE_COMPANY ="DELETE_COMPANY",
+    DELETE_CUSTOMER = "DELETE_CUSTOMER",
+    DELETE_COUPON = "DELETE_COUPON",
 }
 
 export function updateAllCoupons(coupons:Coupon[]): myAction {
@@ -50,3 +53,15 @@ export function updateCompany(company:Company): myAction {
 export function updateCustomer(customer:Customer): myAction{
     return { type: GuestActionType.UPDATE_CUSTOMER , payload:customer}
 }
+
+export function deleteCompany(companyId:number):myAction{
+return {type: GuestActionType.DELETE_COMPANY, payload:companyId}
+}
+
+export function deleteCustomer(customerId:number):myAction{
+    return {type: GuestActionType.DELETE_CUSTOMER, payload:customerId}
+    }
+
+    export function deleteCoupon(couponId:number):myAction{
+        return {type: GuestActionType.DELETE_COUPON, payload:couponId}
+        }

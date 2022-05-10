@@ -1,7 +1,6 @@
 import { Container, IconButton, Modal, Typography } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { theme } from "../../theme";
-import LoginForm from "../forms/LoginForm";
 import ClearIcon from '@mui/icons-material/Clear';
 
 const UseStyles = makeStyles({
@@ -22,12 +21,13 @@ const UseStyles = makeStyles({
 });
 
 
-interface LoginItemProps {
+interface MyModalProps {
     open: boolean,
     close: any
+    content: JSX.Element;
 }
 
-function LoginItem(props: LoginItemProps): JSX.Element {
+function MyModal(props: MyModalProps): JSX.Element {
     const classes = UseStyles();
 
     return (
@@ -36,19 +36,11 @@ function LoginItem(props: LoginItemProps): JSX.Element {
                 <IconButton onClick={props.close}>
                     <ClearIcon />
                 </IconButton>
-                <Typography variant="h3" align="center">
-                    Login
-                </Typography>
-                <Typography>
-                    Have customer account in CouponStock?
-                    <br/>
-                    Sign in and start saving money!
-                </Typography>
-                <LoginForm />
+                {props.content}
             </Container>
         </Modal>
 
     )
 }
 
-export default LoginItem;
+export default MyModal;

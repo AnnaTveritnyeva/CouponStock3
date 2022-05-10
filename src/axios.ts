@@ -34,7 +34,7 @@ export const AdminAxios = {
         return instance.post("admin/addCompany", company);
     },
     deleteCompany(companyId: number) {
-        return instance.delete("admin/deleteCompany" + companyId);
+        return instance.delete("admin/deleteCompany/" + companyId);
     },
     updateCompany(company: Company) {
         return instance.put("admin/updateCompany", company);
@@ -95,10 +95,10 @@ export const CustomerAxios = {
         return instance.get<Coupon[]>("customer/getCustomerCoupons");
     },
     getCustomerCouponsByCategory(category: Category) {
-        return instance.get<Coupon[]>("customer/getCustomerCouponsByCategory" + category);
+        return instance.get<Coupon[]>("customer/getCustomerCouponsByCategory/" + category);
     },
     getCustomerCouponsByMaxPrice(maxPrice: number) {
-        return instance.get<Coupon[]>("customer/getCustomerCouponsByMaxPrice" + maxPrice);
+        return instance.get<Coupon[]>("customer/getCustomerCouponsByMaxPrice/" + maxPrice);
     },
     getCustomerDetails() {
         return instance.get<Customer>("customer/getCustomerDetails");
@@ -114,7 +114,7 @@ export const GuestAxios = {
     getAllCoupons() {
         return instance.get<Coupon[]>("guest/getAllCoupons");
     },  
-    getAllCouponsByCategory(category: Category | string){ 
+    getAllCouponsByCategory(category: Category ){ 
         return instance.get<Coupon[]>("guest/getAllCouponsByCategory/" + category);
     },
     getAllCouponsByMaxPrice(maxPrice: number){

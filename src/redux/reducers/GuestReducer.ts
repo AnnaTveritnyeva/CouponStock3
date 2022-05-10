@@ -56,6 +56,18 @@ export function GuestReducer(state: GuestState = initialState, action: myAction)
             const newCoupon: Coupon = action.payload as Coupon
             newState.coupons[newState.coupons.findIndex(coupon => coupon.id === newCoupon.id)] = newCoupon
             break;
+
+            case GuestActionType.DELETE_COMPANY:
+                newState.companies = newState.companies.filter(company => company.id !== action.payload)
+                break;
+
+            case GuestActionType.DELETE_CUSTOMER:
+                newState.customers = newState.customers.filter(customer => customer.id !== action.payload)
+                break;
+
+            case GuestActionType.DELETE_COUPON:
+                newState.coupons = newState.coupons.filter(coupon => coupon.id !== action.payload)
+                break;
     }
 
 

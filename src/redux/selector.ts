@@ -2,7 +2,7 @@ import Company from "../model/Company";
 import { Coupon } from "../model/Coupon";
 import Customer from "../model/Customer";
 import { Role } from "../model/Role";
-import { addCompany, addCoupon, addCustomer, updateAllCompanies, updateAllCoupons, updateAllCustomers, updateCompany, updateCoupon, updateCustomer } from "./actions/GuestActions";
+import { addCompany, addCoupon, addCustomer, deleteCompany, deleteCoupon, deleteCustomer, updateAllCompanies, updateAllCoupons, updateAllCustomers, updateCompany, updateCoupon, updateCustomer } from "./actions/GuestActions";
 import { login, logout } from "./actions/UserActions";
 import store from "./store";
 
@@ -65,6 +65,19 @@ export const AddCoupon = (coupon: Coupon) => {
 
 export const AddCustomer = (customer: Customer) => {
     store.dispatch(addCustomer(customer))
+}
+
+//delete
+export const DeleteCompany = (companyId: number) =>{
+    store.dispatch(deleteCompany(companyId));
+}
+
+export const DeleteCustomer = (customerId: number) =>{
+    store.dispatch(deleteCustomer(customerId));
+}
+
+export const DeleteCoupon = (couponId: number) =>{
+    store.dispatch(deleteCoupon(couponId));
 }
 
 //better to open another selector for that:

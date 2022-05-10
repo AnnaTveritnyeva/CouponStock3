@@ -40,7 +40,8 @@ function UpdateCouponForm(props:UpdateCouponProps): JSX.Element {
             <TextField label="amount" type="number" variant="outlined" {...register("amount", { required: true })} required defaultValue={props.coupon.amount}/>
             <TextField label="price" type="number" variant="outlined" {...register("price", { required: true })} required defaultValue={props.coupon.price}/>
             <Autocomplete
-                value={category}
+                defaultValue={props.coupon.category}
+                //value={category}
                 onChange={handleCategoryChange}
                 options={CategoryValue}
                 renderInput={(params) => <TextField {...params} label="category" {...register("category", { required: true })} required  defaultValue={props.coupon.category}/>}

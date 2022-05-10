@@ -4,6 +4,7 @@ import { Redirect, Route, Switch} from 'react-router-dom';
 import { theme } from '../../theme';
 import AllCouponsPage from '../pages/AllCouponsPage';
 import CartPage from '../pages/CartPage';
+import CategoryPage from '../pages/CategoryPage';
 import CompanyPage from '../pages/CompanyPage';
 import CouponPage from '../pages/CouponPage';
 import HomePage from '../pages/HomePage';
@@ -66,6 +67,7 @@ function Main(): JSX.Element {
             <Route path="/allCoupons" component={AllCouponsPage} exact/>
             <Route path="/user" component={UserPage} exact/>
             <Route path="/cart" component={CartPage} exact/>
+            <Route path ="/category/:catefory" component={CategoryPage} exact/>
             <Redirect from="/" to="/home" exact />
             <Route component={Page404}/>
         </Switch>

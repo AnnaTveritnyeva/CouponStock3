@@ -2,7 +2,7 @@ import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, Table
 import { useState } from 'react';
 import { Coupon } from '../../model/Coupon';
 import { deleteCouponFromCart } from '../../redux/actions/UserActions';
-import { GetCartCoupons, getUserRole} from '../../redux/selector';
+import { GetCartCoupons, getUserRole, Logout} from '../../redux/selector';
 import store from '../../redux/store';
 import { theme } from '../../theme';
 import SingleCard from '../items/SingleCard';

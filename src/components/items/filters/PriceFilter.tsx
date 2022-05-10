@@ -3,7 +3,6 @@ import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Coupon } from "../../../model/Coupon";
-//import { theme } from "../../../../theme/theme";
 
 
 interface PriceFilterProps {
