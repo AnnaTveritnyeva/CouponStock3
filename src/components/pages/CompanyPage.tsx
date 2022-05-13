@@ -1,24 +1,27 @@
 import { Grid } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { Redirect, useLocation } from 'react-router-dom';
-import { CompanyAxios, GuestAxios } from '../../axios';
+import { useLocation } from 'react-router-dom';
+import { GuestAxios } from '../../axios';
 import { Category } from '../../model/Category';
 import Company from '../../model/Company';
 import { Coupon } from '../../model/Coupon';
-import { GetCompanies } from '../../redux/selector';
 import CouponsList from '../items/CouponsList';
 import { CategoryFilter, CategoryFilterModel, Layout } from '../items/filters/CategoryFilter';
 import PriceFilter, { PriceFilterModel } from '../items/filters/PriceFilter';
-import Page404 from './Page404';
+
+// interface Props{
+//     urlChanged:any
+// }
 
 function CompanyPage(): JSX.Element {
     //maybe theres a better and faster way to do that
-    const myCompany = useLocation().state as Company;
+     const myCompany = useLocation().state as Company;
+  
     //see if we need the exists
-    const exists: Boolean = GetCompanies().some(company => company.id === myCompany.id);
+    //const exists: Boolean = GetCompanies().some(company => company.id === myCompany.id);
 
-    const [coupons, setCoupons] = useState<Coupon[]>(myCompany.coupons)
+    const [coupons, setCoupons] = useState<Coupon[]>([])
     const onSubmitPrice: SubmitHandler<PriceFilterModel> = (data) => {
         GuestAxios.getCompanyCouponsByMaxPrice(myCompany.id as number, data.price).then(response => setCoupons(response.data))
     }
@@ -31,34 +34,44 @@ function CompanyPage(): JSX.Element {
             GuestAxios.getCompanyCouponsByCatefory(myCompany.id as number, data.category as Category).then(response => setCoupons(response.data))
         }
     }
+
+    useEffect(()=>{
+// props.urlChanged()
+if (typeof(myCompany) !== undefined){
+    console.log("updating")
+    setCoupons(myCompany.coupons)
+}
+    },[myCompany])
     
-    if (exists) {
-        return (
-            <div className="CompanyPage">
-            {/* <UserPageHeader 
-            email={myCompany.email} 
-            name={myCompany.name} 
-            userPage={false} 
-            img={myCompany.image}
-            coupons={myCompany.coupons.length} /> */}
-             <Grid container>
-                 <Grid item xs={12} md={8}>
-                     <CouponsList coupons={coupons} />
-                 </Grid>
-                 <Grid item xs={12} md={4}>
-                        <PriceFilter coupons={myCompany.coupons} onSubmit={onSubmitPrice}/>  
-                        <CategoryFilter layout={Layout.side} onSubmit={onSubmitCategory}/>      
-                 </Grid>
+//    if (typeof(myCompany) !== undefined){
+    return (
+        <div className="CompanyPage">
+
+        {/* <UserPageHeader 
+        email={myCompany.email} 
+        name={myCompany.name} 
+        userPage={false} 
+        img={myCompany.image}
+        coupons={myCompany.coupons.length} /> */}
+        <h1>
+            {myCompany.name}
+        </h1>
+         <Grid container>
+             <Grid item xs={12} md={8}>
+                 <CouponsList coupons={coupons} />
              </Grid>
-         </div>
-        )
-    }
-    else {
-        return <Redirect exact to="/companyNotFound">
-            {console.log(exists)}
-            <Page404 />
-        </Redirect>
-    }
+             <Grid item xs={12} md={4}>
+                    <PriceFilter coupons={myCompany.coupons} onSubmit={onSubmitPrice}/>  
+                    <CategoryFilter layout={Layout.side} onSubmit={onSubmitCategory}/>      
+             </Grid>
+         </Grid>
+     </div>
+    )
+//    }else{
+//        return(<div> bksnfkf</div>)
+//    }
+        
+  
 
 }
 

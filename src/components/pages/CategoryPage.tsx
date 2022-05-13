@@ -22,10 +22,10 @@ function CategoryPage(): JSX.Element {
     }
 
     useEffect(() => {
-        if (coupons.length === 0) {
+       // if (coupons.length === 0) {
             GetCategoryCoupons()
-        }
-    }, [])
+       // }
+    }, [myCategory])
 
     return (
         <div className="CompanyPage">

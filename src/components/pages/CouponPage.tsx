@@ -1,12 +1,15 @@
 import { Button, Grid, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { Redirect, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Coupon } from '../../model/Coupon';
-import { GetCompanies, GetCoupons } from '../../redux/selector';
+import { AddCouponToCart, GetCompanies, getUserRole } from '../../redux/selector';
 import { theme } from '../../theme';
 import CouponItem from '../items/CouponItem';
-import Page404 from './Page404';
 import ChoosingLady from "../../assets/choosing.png"
+import { Role } from '../../model/Role';
+import { CustomerAxios } from '../../axios';
+import notify from '../../utils/Notify';
+
 
 const UseStyles = makeStyles({
     image: {
@@ -21,19 +24,34 @@ const UseStyles = makeStyles({
 function CouponPage(): JSX.Element {
     const myCoupon: Coupon = useLocation().state as Coupon;
     const classes = UseStyles();
-    
-        return (
-            <Grid container >
+const history = useHistory()
+
+    const purchaseCoupon = () => {
+        let customer = getUserRole() === Role.CUSTOMER
+           if (!customer){ 
+            history.push("/login")
+            }
+          if (getUserRole() === Role.CUSTOMER){
+            CustomerAxios.addPurchase(myCoupon)
+            .then(res => { notify.success(myCoupon.title +" succssesfully purchased")})
+            .catch(err => { notify.error(err.response.data) });
+          }  
+    }
+
+
+    return (
+        <Grid container >
             <Grid item xs={12}>
                 <Typography variant="h3">
                     {myCoupon.title}
                 </Typography>
             </Grid>
+           
 
             <Grid item xs={12} md={6}>
                 <img className={classes.image}
-                    src={myCoupon.image} width="100%" 
-                    alt={myCoupon.title}/>
+                    src={myCoupon.image} width="100%"
+                    alt={myCoupon.title} />
             </Grid>
             <Grid item md={1}>
 
@@ -64,12 +82,14 @@ function CouponPage(): JSX.Element {
                     variant="contained"
                     fullWidth
                     size="large"
+                    onClick={purchaseCoupon}
                 >
                     Buy Now
                 </Button>
                 <Button
                     variant="contained"
                     size="large"
+                    onClick={() => AddCouponToCart(myCoupon)}
                     fullWidth>
                     Add To Cart
                 </Button>
@@ -85,14 +105,15 @@ function CouponPage(): JSX.Element {
                 {GetCompanies()
                     .find(company => company.id === myCoupon.companyId)?.coupons.filter(coupon => coupon.id !== myCoupon.id)
                     .map(coupon =>
-                            <CouponItem key={coupon.id} coupon={coupon} /> 
-                          )}
+                        <CouponItem key={coupon.id} coupon={coupon} />
+                    )}
             </Grid>
             <Grid item md={4} position="sticky" top="0" >
-                    <img src={ChoosingLady} width="100%" />
+                <img src={ChoosingLady} width="100%" />
             </Grid>
+
         </Grid>
-        )
-    }
+    )
+}
 
 export default CouponPage;

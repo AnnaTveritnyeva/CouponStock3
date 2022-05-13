@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AdminAxios } from "../../axios";
 import Customer from "../../model/Customer";
 import { AddCustomer } from "../../redux/selector";
+import notify from "../../utils/Notify";
 
 function AddCustomerForm(): JSX.Element {
     const { register, handleSubmit } = useForm<Customer>();
@@ -12,9 +13,9 @@ function AddCustomerForm(): JSX.Element {
         AdminAxios.addCustomer(data)
             .then(() => {
                 AddCustomer(data)
-                console.log("added Customer")
+                notify.success("added Customer")
             })
-            .catch(err => console.log(err))
+            .catch(err => notify.error(err.response.data))
     }
 
     return (

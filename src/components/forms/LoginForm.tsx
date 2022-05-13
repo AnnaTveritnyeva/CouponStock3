@@ -1,22 +1,35 @@
 import { Button, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Notyf } from "notyf";
 import { SyntheticEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { LoginAxios } from "../../axios";
 import { Role, RoleValues } from "../../model/Role";
 import { UserCred } from "../../model/UserCred";
 import { Login } from "../../redux/selector";
+import notify from "../../utils/Notify";
+
 
 
 function LoginForm(): JSX.Element {
     const { register, setValue, handleSubmit } = useForm<UserCred>();
     const [role, setRole] = useState<Role>(Role.GUEST);
+    const history = useHistory();
+
 
     const onSubmit: SubmitHandler<UserCred> = (data) => {
         LoginAxios.Login(data)
-            .then(res => Login(data.role, res.headers["authorization"]))
+            .then(res =>{ Login(data.role, res.headers["authorization"])
+           
+            history.goBack()
+          // new Notyf().success("welcom")
+          notify.success("Welcome")
+        })
+
             .catch(err => {
-                console.log(err)
+                notify.error(err.response.data)
             })
+          
     }
 
     const handleRole = (args: SyntheticEvent) => {

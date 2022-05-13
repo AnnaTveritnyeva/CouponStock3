@@ -1,5 +1,6 @@
 import { Coupon } from "../../model/Coupon";
 import { Role } from "../../model/Role";
+import notify from "../../utils/Notify";
 import { myAction } from "../actions/myAction";
 import { UserActionType } from "../actions/UserActions";
 
@@ -24,6 +25,8 @@ export function UserReducer(state: UserState = initialState, action: myAction): 
         case UserActionType.LOGOUT:
             newState.role = Role.GUEST
             newState.JWTtoken = "no-token"
+            newState.couponsInCart = []
+            notify.success("See you soon!")
             break;
 
         case UserActionType.UPDATE_TOKEN:
@@ -34,6 +37,9 @@ export function UserReducer(state: UserState = initialState, action: myAction): 
             const newCoupon = action.payload as Coupon;
             if (!newState.couponsInCart.some(coupon => coupon.id === newCoupon.id)) {
                 newState.couponsInCart.push(newCoupon)
+                notify.success(newCoupon.title + " added to cart")
+            }else{
+                notify.error(newCoupon.title + " already in your cart")
             }
             break;
 

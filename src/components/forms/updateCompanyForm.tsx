@@ -4,6 +4,7 @@ import { AdminAxios } from "../../axios";
 import Company from "../../model/Company";
 import { updateCompany } from "../../redux/actions/GuestActions";
 import store from "../../redux/store";
+import notify from "../../utils/Notify";
 
 
 interface UpdateCompanyProps {
@@ -20,11 +21,11 @@ function UpdateCompanyForm(props: UpdateCompanyProps): JSX.Element {
        
         AdminAxios.updateCompany(data)
             .then(() => {
-                console.log("company updated")
+                notify.success("company updated")
                 store.dispatch(updateCompany(data))
             })
             .catch(err => {
-                console.log(err)
+                notify.error(err.response.data)
             })
     }
 

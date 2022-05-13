@@ -5,6 +5,7 @@ import { CompanyAxios } from "../../axios";
 import { CategoryValue } from "../../model/Category";
 import { Coupon } from "../../model/Coupon";
 import { AddCoupon } from "../../redux/selector";
+import notify from "../../utils/Notify";
 
 function AddCouponForm(): JSX.Element {
     const { register, handleSubmit } = useForm<Coupon>();
@@ -14,10 +15,10 @@ function AddCouponForm(): JSX.Element {
         CompanyAxios.addCoupon(data)
         .then(()=> {
             AddCoupon(data)
-            console.log("added new coupon")
+            notify.success("added new coupon")
     
     })
-        .catch(err=>console.log(err))
+        .catch(err=>notify.error(err.response.data))
     }
 
     const handleCategoryChange = (args: SyntheticEvent) => {

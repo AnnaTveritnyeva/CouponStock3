@@ -10,7 +10,6 @@ function App(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
 
   const getServerData = () => {
-    console.log("im updating........")
     GuestAxios.getAllCoupons()
       .then(res => {
         UpdateAllCoupons(res.data)

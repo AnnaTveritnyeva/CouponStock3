@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AdminAxios } from "../../axios";
 import Customer from "../../model/Customer";
 import { UpdateCustomer } from "../../redux/selector";
+import notify from "../../utils/Notify";
 interface UpdateCustomerProps {
     customer: Customer;
 }
@@ -15,9 +16,11 @@ function UpdateCustomerForm(props: UpdateCustomerProps): JSX.Element {
         // }
 
         AdminAxios.updateCustomer(data)
-            .then(() => UpdateCustomer(data))
+            .then(() => {UpdateCustomer(data)
+            notify.success("customer successfully updated")}
+            )
             .catch(err => {
-                console.log(err)
+                notify.error(err.response.data)
             })
     }
 

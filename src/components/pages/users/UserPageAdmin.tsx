@@ -1,5 +1,4 @@
-
-import { Box, Button,Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs, Typography } from "@mui/material";
+import { Box, Button, Tab, Table, TableBody, TableCell, TableHead, TableRow, Tabs, Typography } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { DeleteCompany, GetCompanies, GetCustomers } from "../../../redux/selector";
 import { theme } from "../../../theme";
@@ -9,6 +8,7 @@ import { AdminAxios } from "../../../axios";
 import Customer from "../../../model/Customer";
 import Company from "../../../model/Company";
 import MyModal from "../../items/MyModal";
+import notify from "../../../utils/Notify";
 
 
 enum TabOptions {
@@ -16,7 +16,7 @@ enum TabOptions {
     COMPANIES = "Companies"
 }
 
-enum AdminActions{
+enum AdminActions {
     UPDATE_COMPANY,
     UPDATE_CUSTOMER,
     ADD_COMPANY,
@@ -27,28 +27,28 @@ enum AdminActions{
 function UserPageAdmin(): JSX.Element {
     const [customers, setCustomers] = useState<Customer[]>(GetCustomers());
     const [companies, setCompanies] = useState<Company[]>(GetCompanies());
-    const [addCompanyOpen, setAddCompanyOpen ] = useState<boolean>(false);
+    const [addCompanyOpen, setAddCompanyOpen] = useState<boolean>(false);
     const [updateCompanyOpen, setUpdateCompnayOpen] = useState<boolean>(false);
     const [companyToUpdate, setCompanyToUpdate] = useState<Company>(new Company())
 
-    const openAddCompany=()=>{
-setAddCompanyOpen(true)
+    const openAddCompany = () => {
+        setAddCompanyOpen(true)
     }
 
-    const closeAddCompany=()=>{
+    const closeAddCompany = () => {
         setAddCompanyOpen(false)
-            }
+    }
 
 
-    const openUpdateCompany=(company:Company)=>{
+    const openUpdateCompany = (company: Company) => {
         setCompanyToUpdate(company)
         setUpdateCompnayOpen(true)
-    
-            }
-        
-            const closeUpdateCompany=()=>{
-                setUpdateCompnayOpen(false)
-                    }
+
+    }
+
+    const closeUpdateCompany = () => {
+        setUpdateCompnayOpen(false)
+    }
 
     const [value, setValue] = useState<TabOptions>(TabOptions.CUSTOMERS);
 
@@ -56,16 +56,18 @@ setAddCompanyOpen(true)
         setValue(newValue);
     };
 
-    const deleteCompany = (companyId: number)=>{
+    const deleteCompany = (companyId: number) => {
         AdminAxios.deleteCompany(companyId)
-        .then(()=>
-           { DeleteCompany(companyId)
-            setCompanies(GetCompanies())}
-        )
-        .catch(err=>{console.log(err)})
+            .then(() => {
+                DeleteCompany(companyId)
+                notify.success("successfully deleted")
+                setCompanies(GetCompanies())
+            }
+            )
+            .catch(err => { notify.error(err.response.data) })
     }
 
-    
+
 
     function Customers() {
         return <Table sx={{ bgcolor: theme.palette.primary.contrastText }}>
@@ -101,7 +103,7 @@ setAddCompanyOpen(true)
 
     function Companies() {
         return <Table sx={{ bgcolor: theme.palette.primary.contrastText }}>
-              
+
             <TableHead>
                 <TableRow>
 
@@ -110,15 +112,15 @@ setAddCompanyOpen(true)
             <TableBody>
                 <TableRow>
                     <TableCell>
-                    <Button onClick={openAddCompany}>
-                        add 
-                    </Button>
+                        <Button onClick={openAddCompany}>
+                            add
+                        </Button>
                     </TableCell>
                 </TableRow>
-              
+
                 {companies.map(company =>
-               
-                                      <TableRow key={company.id}>
+
+                    <TableRow key={company.id}>
                         <TableCell align="center">
                             <img src={company.image} height="100px" width="100px" />
                         </TableCell>
@@ -134,18 +136,18 @@ setAddCompanyOpen(true)
                         </TableCell>
                         <TableCell align="center">
                             <Typography >
-                                {company.coupons.length} 
+                                {company.coupons.length}
                             </Typography>
                         </TableCell>
                         <TableCell align="center">
-                            <Button onClick={()=>openUpdateCompany(company)}
+                            <Button onClick={() => openUpdateCompany(company)}
                             >
-                               update 
+                                update
                             </Button>
                         </TableCell>
                         <TableCell align="center">
-                            <Button onClick={()=>deleteCompany(company.id as number)}>
-                               delete 
+                            <Button onClick={() => deleteCompany(company.id as number)}>
+                                delete
                             </Button>
                         </TableCell>
                     </TableRow>
@@ -155,16 +157,15 @@ setAddCompanyOpen(true)
         </Table>
     }
 
-    function ShowTable (){
-        switch (value){
+    function ShowTable() {
+        switch (value) {
             case TabOptions.CUSTOMERS:
                 return Customers();
-                case TabOptions.COMPANIES:
-                    return Companies();
+            case TabOptions.COMPANIES:
+                return Companies();
         }
     }
 
-   
     return (
         <div>
             UserPageAdmin
@@ -175,12 +176,12 @@ setAddCompanyOpen(true)
                 </Tabs>
             </Box>
 
-           {ShowTable()}
-          
-       
-       
-<MyModal open={addCompanyOpen} close={closeAddCompany} content={<AddCompanyForm/>} />
-<MyModal open={updateCompanyOpen} close={closeUpdateCompany} content={<UpdateCompanyForm company={companyToUpdate}/>} />
+            {ShowTable()}
+
+
+
+            <MyModal open={addCompanyOpen} close={closeAddCompany} content={<AddCompanyForm />} />
+            <MyModal open={updateCompanyOpen} close={closeUpdateCompany} content={<UpdateCompanyForm company={companyToUpdate} />} />
 
         </div>
 

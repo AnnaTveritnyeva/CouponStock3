@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AdminAxios } from "../../axios";
 import Company from "../../model/Company";
 import { AddCompany } from "../../redux/selector";
+import notify from "../../utils/Notify";
 
 function AddCompanyForm(): JSX.Element {
     const { register, handleSubmit } = useForm<Company>();
@@ -12,8 +13,8 @@ function AddCompanyForm(): JSX.Element {
             .then(() => {
                 //check if better to use contex 
                 AddCompany(data)
-                console.log("added Company")})
-            .catch(err => console.log(err))       
+                notify.success("added Company")})
+            .catch(err => notify.error(err.response.data))       
     }
 
     return (

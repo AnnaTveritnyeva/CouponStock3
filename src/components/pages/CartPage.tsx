@@ -9,13 +9,15 @@ import SingleCard from '../items/SingleCard';
 import SidePhoto from "../../assets/sidephoto.svg"
 import ClearIcon from '@mui/icons-material/Clear';
 import LockIcon from '@mui/icons-material/Lock';
-import LoginItem from '../items/LoginItem';
 import { Role } from '../../model/Role';
 import { CustomerAxios } from '../../axios';
+import { useHistory } from 'react-router-dom';
+import notify from '../../utils/Notify';
+import { ContactsOutlined } from '@mui/icons-material';
 
 function Cart(): JSX.Element {
     const [coupons, setCoupons] = useState<Coupon[]>(GetCartCoupons());
-    const [openLogin, setOpenLogin] = useState<boolean>(false)
+    const history = useHistory();
 
     const deleteCoupon = (couponId: number) => {
         store.dispatch(deleteCouponFromCart(couponId))
@@ -30,20 +32,14 @@ function Cart(): JSX.Element {
         return sum.toFixed(2);
     }
 
-    const OpenLogin = () => {
-        setOpenLogin(true)
-    }
-
-    const CloseLogin = () => {
-        setOpenLogin(false)
-    }
 
     const PurchaseCoupons = () =>{
-        CustomerAxios.purchaseCoupons(GetCartCoupons())
-        .then(()=>coupons.map(coupon=> deleteCoupon(coupon.id)))
+        CustomerAxios.purchaseCoupons(coupons)
+        .then(()=>coupons.map(coupon=> {deleteCoupon(coupon.id)
+        }))
+        .then(()=>notify.success("purchase succeded"))
         .catch(err=> {
-            console.log(err)
-            OpenLogin()
+            notify.error(err.response.data)
         })
     }
 
@@ -94,11 +90,12 @@ function Cart(): JSX.Element {
                                 total: {getPriceSum()} $
                             </Typography>
                             <Button
+                            disabled={coupons.length===0}
                                 fullWidth
                                 variant='contained'
                                 size='large'
                                 startIcon={<LockIcon />}
-                                onClick={ getUserRole()=== Role.CUSTOMER? PurchaseCoupons: OpenLogin}
+                                onClick={ () => getUserRole()=== Role.CUSTOMER? PurchaseCoupons(): history.push("/login")}
                             >
                                 secure checkout
                             </Button>
@@ -109,7 +106,7 @@ function Cart(): JSX.Element {
                 </Grid>
             </Grid>
 
-            <LoginItem open={openLogin} close={CloseLogin}/>
+        
 
 
             {console.log(store.getState().user)}

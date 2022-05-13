@@ -3,7 +3,7 @@ import { Coupon } from "../model/Coupon";
 import Customer from "../model/Customer";
 import { Role } from "../model/Role";
 import { addCompany, addCoupon, addCustomer, deleteCompany, deleteCoupon, deleteCustomer, updateAllCompanies, updateAllCoupons, updateAllCustomers, updateCompany, updateCoupon, updateCustomer } from "./actions/GuestActions";
-import { login, logout } from "./actions/UserActions";
+import { addCouponToCart, login, logout } from "./actions/UserActions";
 import store from "./store";
 
 //get
@@ -25,6 +25,10 @@ export const GetCartCoupons = (): Coupon[] => {
 
 export const getUserRole = ()=>{
     return store.getState().user.role
+}
+
+export const GetNumOfCartCoupons=():number=>{
+    return store.getState().user.couponsInCart.length
 }
 
 
@@ -65,6 +69,10 @@ export const AddCoupon = (coupon: Coupon) => {
 
 export const AddCustomer = (customer: Customer) => {
     store.dispatch(addCustomer(customer))
+}
+
+export const AddCouponToCart = (coupon:Coupon) =>{
+    store.dispatch(addCouponToCart(coupon))
 }
 
 //delete

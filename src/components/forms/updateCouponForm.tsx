@@ -5,6 +5,7 @@ import { CompanyAxios } from "../../axios";
 import { CategoryValue } from "../../model/Category";
 import { Coupon } from "../../model/Coupon";
 import { UpdateCoupon } from "../../redux/selector";
+import notify from "../../utils/Notify";
 interface UpdateCouponProps{
     coupon:Coupon
 }
@@ -13,13 +14,12 @@ function UpdateCouponForm(props:UpdateCouponProps): JSX.Element {
     const [category, setCategory] = useState<string>()
 
     const onSubmit: SubmitHandler<Coupon> = (data) => {
-        console.log(data)
        CompanyAxios.updateCoupon(data)
        .then(() => {
             UpdateCoupon(data)
-            console.log("coupon succsessfully updated")
+            notify.success("coupon succsessfully updated")
     })
-       .catch(err=> console.log(err))
+       .catch(err=> notify.error(err.response.data))
     }
 
     const handleCategoryChange = (args: SyntheticEvent) => {
