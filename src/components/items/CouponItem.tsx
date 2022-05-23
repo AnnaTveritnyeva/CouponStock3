@@ -1,12 +1,12 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Coupon } from '../../model/Coupon';
 import { addCouponToCart } from '../../redux/actions/UserActions';
 import store from '../../redux/store';
 import { theme } from '../../theme';
 import makeStyles from "@mui/styles/makeStyles";
-import { Box, Button, Card, CardMedia, Divider, Grid, Typography } from '@mui/material';
-import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
+import { Button, ButtonGroup, Card, CardMedia, Grid, Typography } from '@mui/material';
+import { CustomerAxios } from '../../axios';
+import notify from '../../utils/Notify';
 
 interface CouponItemProps {
     coupon: Coupon;
@@ -15,11 +15,9 @@ interface CouponItemProps {
 const UseStyles = makeStyles({
     card: {
         display: 'flex',
-        flexWrap: 'wrap',
         width: '100%',
-        height: '200px',
+        height: '180px',
         marginBottom: theme.spacing(4),
-        border: '1.5px solid black',
         "&:hover": {
             boxShadow: '0px 0px 3px 0px #333333'
 
@@ -33,15 +31,17 @@ const UseStyles = makeStyles({
         display: 'flex',
         flexWrap: 'wrap',
         alignContent: 'center',
-        //justifyContent: 'center',
         backgroundColor: '#e8e4e6',
+        justifyContent: 'center',
+        alignItems: 'center',
+        justifyItems: 'center'
     },
     image: {
-        height: '200px',
-        width: '200px',
+        height: '180px',
+        width: '180px',
         [theme.breakpoints.down("sm")]: {
-            height: '120px',
-            width: '120px',
+            height: '100px',
+            width: '100px',
 
         },
     },
@@ -60,27 +60,39 @@ const UseStyles = makeStyles({
         paddingInline: theme.spacing(4)
     },
     imageGrid: {
-
+        justifyContent: 'center'
     },
     text: {
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
         width: '100%',
         flexWrap: 'wrap',
-        //justifyContent:'space-between',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        marginLeft: theme.spacing(1)
 
 
 
     },
     gridContainer: {
-        //display: 'flex'
+        display: 'flex'
     },
     content: {
         display: 'flex',
         flexDirection: 'column',
-        padding: theme.spacing(3),
-        // alignItmes:'center',
+        padding: theme.spacing(2),
         justifyContent: 'space-between',
+    },
+    description: {
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        display: "-webkit-box",
+        "-webkit-line-clamp": 3,
+        "-webkit-box-orient": "vertical",
+        [theme.breakpoints.down("sm")]: {
+            display: 'none',
+        }
     }
 
 });
@@ -92,49 +104,97 @@ function CouponItem(props: CouponItemProps): JSX.Element {
         history.push({ pathname: "/coupon/:" + props.coupon.id, state: props.coupon });
     }
 
+    const handleBuyNow = (coupon: Coupon) => {
+        CustomerAxios.addPurchase(coupon)
+            .then(res => notify.success(coupon.title + " successfully purchased!"))
+            .catch(err => notify.error(err.response.data))
+    }
+
     const classes = UseStyles();
     return (
         <Card className={classes.card}>
-            <Grid className={classes.gridContainer} container >
-               
-                <Grid className={classes.imageGrid} item xs={3}  onClick={handleClick}>
-                    <CardMedia className={classes.image} image={props.coupon.image} title={props.coupon.title} />
-                </Grid>
-                <Divider />
-                <Grid item className={classes.content} xs={6} sm={6} onClick={handleClick}>
+            <div onClick={handleClick}>
+                <CardMedia
+                    className={classes.image}
+                    image={props.coupon.image}
+                    title={props.coupon.title}
+                />
+            </div>
 
-                    <Box className={classes.text} sx={{ padding: '0' }}>
-                        <Typography variant="h6" fontWeight={theme.typography.fontWeightBold} gutterBottom>
+            <Grid className={classes.gridContainer} container >
+                <Grid item className={classes.content} xs={8} onClick={handleClick}>
+
+                    <div className={classes.text} >
+                        <Typography variant="h6"
+                            fontSize={theme.breakpoints.down("md") && "14px"}
+                            fontWeight={theme.typography.fontWeightBold} gutterBottom
+                        >
                             {props.coupon.title}
                         </Typography>
-                        <Typography variant="body2" gutterBottom>
+                        <Typography
+                            className={classes.description}
+                            variant="body2"
+                            gutterBottom
+                        >
                             {props.coupon.description}
                         </Typography>
-
-                    </Box>
-
-                </Grid>
-              
-                <Grid item className={classes.buttonBox} xs={3} sm={3}>
-                    <div>
-                        <Button
-                            variant="contained"
-                            style={{ backgroundColor: theme.palette.primary.dark }}
-                            size="medium"
-                            startIcon={<ShoppingCartTwoToneIcon />}
-                            sx={{ marginBottom: theme.spacing(1) }}
-                            onClick={() => store.dispatch(addCouponToCart(props.coupon))}
+                        <Typography
+                            variant="caption"
+                            align="right"
+                            color={theme.palette.primary.light
+                            }
+                            fontWeight={theme.typography.fontWeightMedium}
                         >
-                            Get This Deal
-                            <br />
-                        </Button>
-                        <Typography variant="subtitle2" align="center" color={theme.palette.primary.light} >
                             only {props.coupon.amount} left!
                         </Typography>
-                        <Typography variant="caption" align="right" color={theme.palette.secondary.dark}>
-                            {/* after reloading shows the date not formated */}
-                            expiration date: { props.coupon.endDate}
-                        </Typography>
+                    </div>
+                </Grid>
+
+                <Grid item className={classes.buttonBox} xs={4} >
+                    <div>
+                        <ButtonGroup
+                            orientation='vertical'
+                            variant='text'
+                            sx={{ borderRadius: '15px' }}
+                        >
+                            <Button
+                                size="large"
+                                sx={{
+                                    fontFamily: 'Kanit',
+                                    paddingInline: theme.spacing(1),
+                                    color: theme.palette.secondary.main,
+                                    [theme.breakpoints.down("md")]: {
+                                        display: 'none'
+                                    }
+                                }}
+                                onClick={() => handleBuyNow(props.coupon)}
+                            >
+                                <Typography
+                                    variant='subtitle2'
+                                    fontWeight={theme.typography.fontWeightMedium}
+                                >
+                                    buy now
+                                </Typography>
+
+                            </Button>
+                            <Button
+                                size="large"
+                                sx={{
+                                    fontFamily: 'Kanit',
+                                    fontWeight: theme.typography.fontWeightMedium,
+                                    paddingInline: theme.spacing(1),
+                                    color: theme.palette.secondary.dark
+                                }}
+                                onClick={() => store.dispatch(addCouponToCart(props.coupon))}
+                            >
+                                <Typography
+                                    variant='body2'
+                                    fontWeight={theme.typography.fontWeightMedium}
+                                >
+                                    add to cart
+                                </Typography>
+                            </Button>
+                        </ButtonGroup>
                     </div>
                 </Grid>
             </Grid>

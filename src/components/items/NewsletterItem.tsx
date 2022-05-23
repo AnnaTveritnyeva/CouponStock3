@@ -22,7 +22,10 @@ function NewsletterItem(): JSX.Element {
         <SingleCard title="Email Newsletter"
             content={
                 <div>
-                    <Typography variant="subtitle1" >
+                    <Typography 
+                    variant="subtitle1" 
+                    align="center" 
+                    >
                         Sign up for our email newsletter and get notified about hot and popular coupons.
                     </Typography>
                     <Box className={classes.inputBox}>

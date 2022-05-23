@@ -1,7 +1,6 @@
-import { Box, CardMedia, Typography } from "@mui/material";
+import { alpha, Box, CardMedia, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { SyntheticEvent } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Company from "../../model/Company";
 import { theme } from "../../theme";
 
@@ -18,7 +17,6 @@ const UseStyles = makeStyles({
         flexDirection: 'column',
         width: '100px',
         height: '100px',
-        //borderRadius: '15%',
         marginInline: theme.spacing(4),
         marginTop: theme.spacing(3),
         [theme.breakpoints.down("sm")]: {
@@ -38,13 +36,11 @@ const UseStyles = makeStyles({
         borderRadius: theme.shape.borderRadius,
 
         "&:hover": {
-            //boxShadow: theme.shadows[10],
-            // border: '1.5px solid black', 
+            boxShadow: theme.shadows[5],
 
         },
     },
     companyBox: {
-        //paddingInline: theme.spacing(3),
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -56,9 +52,6 @@ const UseStyles = makeStyles({
         width: '100%',
         borderBottomRightRadius: theme.shape.borderRadius,
         borderBottomLeftRadius: theme.shape.borderRadius,
-        // borderTop: '1.5px solid black'
-
-        //paddingBlock:theme.spacing(1)
     }
 
 });
@@ -85,19 +78,24 @@ function CompanyCardItem(props: CompanyProps): JSX.Element {
                         image={props.company.image}
                     />
                 </Box>
-                <Typography variant="subtitle2" align="center">
+                <Typography 
+                variant="overline"
+                color={alpha(theme.palette.common.black, 0.8)}
+                
+                 align="center"
+                 fontWeight={theme.typography.fontWeightMedium}
+                 >
                     {props.company.name}
                 </Typography>
             </Box>
             <Box className={classes.couponTitleBox}>
                 <Typography
-                    variant="body2"
+                    variant="subtitle2"
                     align="center"
-                    fontWeight={theme.typography.fontWeightBold}
                     color={theme.palette.primary.contrastText}
                     sx={{ padding: theme.spacing(1) }}
                 >
-                    {props.company.coupons.length} coupons
+                   total {props.company.coupons.length} coupons 
                 </Typography>
             </Box>
         </Box >

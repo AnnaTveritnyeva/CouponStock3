@@ -1,19 +1,16 @@
-import { Badge, ButtonGroup, Grid, IconButton, InputBase, Toolbar, Typography, alpha, Button, Drawer, MenuList } from "@mui/material";
+import { ButtonGroup, Grid, IconButton,  Toolbar, Typography,Drawer, MenuList } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
-import MenuIcon from '@mui/icons-material/Menu';
-import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone';
-import { Search } from "@mui/icons-material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import Logo from "../../../assets/logo.svg.png";
 import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from "react-router-dom";
 import { theme } from "../../../theme";
-import { GetCartCoupons, GetNumOfCartCoupons, getUserRole, Logout } from "../../../redux/selector";
+import { GetNumOfCartCoupons, getUserRole } from "../../../redux/selector";
 import { Role } from "../../../model/Role";
 import { CategoriesMenu, CopmaniesMenu, UserMenu } from "./SideBar";
-import store from "../../../redux/store";
-import notify from "../../../utils/Notify";
+import { FaShoppingCart, FaUser } from "react-icons/fa"
+import { TiThMenu } from "react-icons/ti"
+
 
 
 
@@ -45,7 +42,7 @@ const UseStyles = makeStyles({
         }
     },
     icons: {
-        marginRight: theme.spacing(1),
+        marginRight: theme.spacing(3),
     },
     logo: {
         height: '40%',
@@ -94,7 +91,7 @@ const UseStyles = makeStyles({
     },
     logoSVG: {
         height: '3rem',
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("sm")]: {
             height: '30px'
         }
     }
@@ -143,9 +140,9 @@ function MainBar(): JSX.Element {
 
 
 
-useEffect(()=>{
+    useEffect(() => {
 
-},[GetNumOfCartCoupons])
+    }, [GetNumOfCartCoupons])
 
     return (
         <Toolbar className={classes.toolbar} >
@@ -156,29 +153,25 @@ useEffect(()=>{
                 <Grid className={classes.gridLeft} item xs={12} sm={7}>
                     <div className={classes.menu}>
                         <IconButton className={classes.icons} onClick={openMenu}
-                            sx={{ color: alpha(theme.palette.primary.contrastText, 0.9) }}
+                            sx={{ color: theme.palette.common.black }}
+                            size="medium"
                         >
-                            <MenuIcon />
+                            <TiThMenu />
                         </IconButton>
                     </div>
 
                     <div className={classes.logo} onClick={() => history.push("/home")}>
                         <Typography variant="h3"
                             align="center"
-                            fontFamily="Orelega One"
-                            color={theme.palette.secondary.contrastText}
-                            fontWeight={theme.typography.fontWeightLight}
-                        //fontStyle="italic"
+                            fontFamily="Kanit"
+                            color={theme.palette.common.black}
+                            fontWeight={theme.typography.fontWeightMedium}
                         >
                             Coupon
                             <img src={Logo} className={classes.logoSVG} alt="" />
                             Stock
 
                         </Typography>
-                    </div>
-                    <div className={classes.search}>
-                        <Search color="primary" />
-                        <InputBase placeholder="search our coupons..." className={classes.searchInput} />
                     </div>
                 </Grid>
                 <Grid className={classes.gridRight} item sm={3}>
@@ -189,35 +182,25 @@ useEffect(()=>{
 
                         <ButtonGroup >
                             <IconButton
+                                sx={{ color: theme.palette.secondary.contrastText }}
+                                onClick={() => history.push("/cart")}
 
-                                sx={{ color: alpha(theme.palette.secondary.contrastText, 0.8) }}
-                                onClick={() => history.push("/cart")}>
-
-                                <Badge 
-                                    className={classes.badge}
-                                    badgeContent={GetNumOfCartCoupons()}
-                                    color="secondary"
-                                >
-                                    <ShoppingCartTwoToneIcon />
-                                </Badge>
+                                size="medium"
+                            >
+                                <FaShoppingCart />
                             </IconButton >
+                            <IconButton
+                                style={{ color: theme.palette.common.black }}
+                                onClick={handleUserClick}
+                                size="medium"
+                            >
+                                <FaUser
+                                />
+                            </IconButton>
                         </ButtonGroup>
 
                     </div>
-                    <Button className={classes.loginButton} style={{ backgroundColor: theme.palette.primary.dark, color: theme.palette.primary.contrastText, borderRadius: "20px" }}
-                        startIcon={<PersonOutlineTwoToneIcon />}
-                        onClick={handleUserClick}
-                    >
-                        {RightSection()}
-                    </Button>
-                    <Button style={{ backgroundColor: theme.palette.primary.dark, color: theme.palette.primary.contrastText, borderRadius: "20px" }}
-                        onClick={() => { Logout() 
-                        history.push("/home")
-                        }}>
-                        Logout
-                    </Button>
 
-                    {/* {RightSection()} */}
                 </Grid>
                 <Grid item sm={1}>
 
@@ -227,11 +210,9 @@ useEffect(()=>{
             <Drawer
                 variant="temporary"
                 open={phoneMenuOpen}
-                //closeAfterTransition
                 sx={{ width: "100vw" }}
             >
-                <MenuList sx={{ width: "100vw" }} >
-                    {/* {RightSection()} */}
+                <MenuList sx={{ width: "100vw" }} onClick={closeMenu}>
                     <IconButton onClick={closeMenu}>
                         <CloseIcon />
                     </IconButton>

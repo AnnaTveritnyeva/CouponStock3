@@ -9,10 +9,7 @@ const UseStyles = makeStyles({
     },
     inputField: {
         marginTop: theme.spacing(1)
-    },
-    submitButton: {
-        marginBlock: theme.spacing(2)
-    },
+    }
 })
 
 
@@ -34,7 +31,11 @@ function JoinCompanyItem(): JSX.Element {
             title="Join Our Community"
             content={
                 <div>
-                    <Typography className={classes.text} variant="subtitle1" gutterBottom>
+                    <Typography 
+                    className={classes.text} 
+                    variant="subtitle1" 
+                    align="center" 
+                    gutterBottom>
                         Have your own buisness?
                         <br />
                         CouponStock gives an opportunity to every company submit their coupons for free.
@@ -55,7 +56,12 @@ function JoinCompanyItem(): JSX.Element {
 
                     {InputField("image:", "url", "http://image.jpg")}
 
-                    <Button className={classes.submitButton} variant="contained" fullWidth size="large" >
+                    <Button 
+                    sx={{marginBlock: theme.spacing(2)}} 
+                    variant="contained" 
+                    fullWidth 
+                    size="large" 
+                    >
                         Submit
                     </Button>
                 </div>

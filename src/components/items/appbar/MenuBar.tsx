@@ -19,7 +19,9 @@ const UseStyles = makeStyles({
     },
     optionBox: {
         backgroundColor: "white",
-        width: '100%'
+        width: '100%',
+        borderBottomRightRadius:'15px',
+        borderBottomLeftRadius:'15px'
     }
 })
 
@@ -78,7 +80,8 @@ function MenuBar(): JSX.Element {
                         textColor="secondary"
                         indicatorColor="secondary"
                         variant="fullWidth"
-                        sx={{ display: 'flex', width: '100%', justifyItems: 'space-evenly', }}
+                        sx={{ display: 'flex', width: '100%', justifyItems: 'space-evenly', 
+                    }}
                     >
                         {tabsDivider()}
                         <Tab
