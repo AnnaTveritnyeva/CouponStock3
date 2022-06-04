@@ -6,18 +6,15 @@ import Customer from "./model/Customer";
 import { UserCred } from "./model/UserCred";
 import { updateJwt } from "./redux/actions/UserActions";
 import store from "./redux/store";
+import globals from "./utils/globals";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8080/',
     timeout: 3000,
-    // check if like this or with interceptors
-   // headers:  {"authorization": store.getState().user.JWTtoken}
 });
 
 
 instance.interceptors.request.use(request =>{
 request.headers = {"authorization": store.getState().user.JWTtoken}
-console.log(store.getState().user.JWTtoken)
     return request;
 })
 
@@ -31,80 +28,80 @@ instance.interceptors.response.use(response =>{
 
 export const AdminAxios = {
     addCompany(company: Company) {
-        return instance.post("admin/addCompany", company);
+        return instance.post(globals.admin.addCompany, company);
     },
     deleteCompany(companyId: number) {
-        return instance.delete("admin/deleteCompany/" + companyId);
+        return instance.delete(globals.admin.deleteCompany + companyId);
     },
     updateCompany(company: Company) {
-        return instance.put("admin/updateCompany", company);
+        return instance.put(globals.admin.updateCompany, company);
     },
     getAllCompanies() {
-        return instance.get<Company[]>("admin/getAllCompanies");
+        return instance.get<Company[]>(globals.admin.getAllCompanies);
     },
     getOneCompany(companyId: number) {
-        return instance.get<Company>("admin/getOneCompany" + companyId)
+        return instance.get<Company>(globals.admin.getOneCompany + companyId)
     },
     addCustomer(customer: Customer) {
-        return instance.post("admin/addCustomer", customer);
+        return instance.post(globals.admin.addCustomer, customer);
     },
     deleteCustomer(customerId: number) {
-        return instance.delete("admin/deleteCustomer" + customerId);
+        return instance.delete(globals.admin.deleteCustomer + customerId);
     },
     updateCustomer(customer: Customer) {
-        return instance.put("admin/updateCustomer", customer);
+        return instance.put(globals.admin.updateCustomer, customer);
     },
     getAllCustomers() {
-        return instance.get<Customer[]>("admin/getAllCustomers");
+        return instance.get<Customer[]>(globals.admin.getAllCustomers);
     },
     getOneCustomer(customerId: number) {
-        return instance.get<Customer>("admin/getOneCustomer" + customerId)
+        return instance.get<Customer>(globals.admin.getOneCustomer + customerId)
     }
 }
 
 
 export const CompanyAxios = {
     addCoupon(coupon: Coupon) {
-        return instance.post("company/addCoupon", coupon);
+        return instance.post(globals.company.addCoupon, coupon);
     },
     deleteCoupon(couponId: number) {
-        return instance.delete("company/deleteCoupon" + couponId);
+        return instance.delete(globals.company.deleteCoupon + couponId);
     },
     updateCoupon(coupon: Coupon) {
-        return instance.put("company/updateCompany", coupon);
+        return instance.put(globals.company.updateCoupon, coupon);
     },
     getCompanyCoupons() {
-        return instance.get<Coupon[]>("company/getCompanyCoupons");
+        return instance.get<Coupon[]>(globals.company.getCompanyCoupons);
     },
     getCompanyCouponsByCategory(category: Category) {
-        return instance.get<Coupon[]>("company/getCompanyCouponsByCategory" + category);
+        return instance.get<Coupon[]>(globals.company.getCompanyCouponsByCategory + category);
     },
     getCompanyCouponsByMaxPrice(maxPrice: number) {
-        return instance.get<Coupon[]>("company/getCompanyCouponsByMaxPrice" + maxPrice);
+        return instance.get<Coupon[]>(globals.company.getCompanyCouponsByMaxPrice + maxPrice);
     },
     getCompanyDetails() {
-        return instance.get<Company>("company/getCompanyDetails");
+        return instance.get<Company>(globals.company.getCompanyDetails);
     }
 }
 
 export const CustomerAxios = {
     addPurchase(coupon: Coupon) {
-        return instance.put("customer/couponPurchase", coupon);
+        return instance.put(globals.customer.addPurchase, coupon);
     },
     getCustomerCoupons() {
-        return instance.get<Coupon[]>("customer/getCustomerCoupons");
+        return instance.get<Coupon[]>(globals.customer.getCustomerCoupons);
     },
     getCustomerCouponsByCategory(category: Category) {
-        return instance.get<Coupon[]>("customer/getCustomerCouponsByCategory/" + category);
+        return instance.get<Coupon[]>(globals.customer.getCustomerCouponsByCategory + category);
     },
     getCustomerCouponsByMaxPrice(maxPrice: number) {
-        return instance.get<Coupon[]>("customer/getCustomerCouponsByMaxPrice/" + maxPrice);
+        return instance.get<Coupon[]>(globals.customer.getCustomerCouponsByMaxPrice + maxPrice);
     },
     getCustomerDetails() {
-        return instance.get<Customer>("customer/getCustomerDetails");
+        return instance.get<Customer>(globals.customer.getCustomerDetails);
     },
     purchaseCoupons(coupons: Coupon[]) {
-        return instance.put("customer/purchaseListOfCoupons", coupons);
+        return instance.put(globals.customer.purchaseCoupons, coupons);
     },
 
     
@@ -112,30 +109,30 @@ export const CustomerAxios = {
 
 export const GuestAxios = {
     getAllCoupons() {
-        return instance.get<Coupon[]>("guest/getAllCoupons");
+        return instance.get<Coupon[]>(globals.guest.getAllCoupons);
     },  
     getAllCouponsByCategory(category: Category ){ 
-        return instance.get<Coupon[]>("guest/getAllCouponsByCategory/" + category);
+        return instance.get<Coupon[]>(globals.guest.getAllCouponsByCategory + category);
     },
     getAllCouponsByMaxPrice(maxPrice: number){
-        return instance.get<Coupon[]>("guest/getAllCouponsByMaxPrice/" + maxPrice);
+        return instance.get<Coupon[]>(globals.guest.getAllCouponsByMaxPrice + maxPrice);
     },
     getAllCouponsByCompany(companyId:number){
-        return instance.get<Coupon[]>("guest/getAllCouponsByCompanyId/" + companyId);
+        return instance.get<Coupon[]>(globals.guest.getAllCouponsByCompany + companyId);
     },
     getAllCompanies(){
-        return instance.get<Company[]>("guest/getAllCompanies");
+        return instance.get<Company[]>(globals.guest.getAllCompanies);
     },
     getCompanyCouponsByCatefory(companyId:number, category: Category){
-        return instance.get<Coupon[]>("guest/getCompanyCouponsByCategory/"+companyId+"/"+ category)
+        return instance.get<Coupon[]>(globals.guest.getCompanyCouponsByCatefory+companyId+"/"+ category)
     },
     getCompanyCouponsByMaxPrice(companyId:number, maxPrice: number){
-        return instance.get<Coupon[]>("guest/getCompanyCouponsByMaxPrice/"+ companyId+"/"+ maxPrice)
+        return instance.get<Coupon[]>(globals.guest.getCompanyCouponsByMaxPrice+ companyId+"/"+ maxPrice)
     }
 }
 
 export const LoginAxios = {
     Login(userCred:UserCred){
-        return instance.post<string>("authentication/login", userCred);
+        return instance.post<string>(globals.login.Login, userCred);
     }
 }
