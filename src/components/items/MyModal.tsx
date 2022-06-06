@@ -16,7 +16,6 @@ const UseStyles = makeStyles({
         margin: 'auto',
         outline: 'none',
     },
-
 });
 
 interface MyModalProps {
@@ -37,7 +36,7 @@ function MyModal(props: MyModalProps): JSX.Element {
             <Box
                 className={classes.container}
                 sx={{
-                    width: '60vw',
+                     width: '50vw',
                     [theme.breakpoints.down("sm")]: { width: '100vw' }
                 }}
             >
