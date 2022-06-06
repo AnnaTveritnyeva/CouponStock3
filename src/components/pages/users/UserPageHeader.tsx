@@ -8,7 +8,8 @@ interface UserPageHeaderProps {
     name: string;
     email?: string
     img?: string;
-    text: string;
+    text?: string;
+    userPage: boolean;
 }
 
 
@@ -20,7 +21,7 @@ const UseStyles = makeStyles({
         marginBlock: theme.spacing(3),
         height: '150px',
         [theme.breakpoints.down("sm")]: {
-            height: '100px'
+            height: '120px'
         },
     },
     mainGrid: {
@@ -36,26 +37,20 @@ const UseStyles = makeStyles({
     mainTextCoupons: {
         marginTop: theme.spacing(1)
     },
-    mainImage: {
-        height: '100%',
-        width: '100%',
-        backgroundColor: 'white',
-        marginRight: theme.spacing(3)
-    },
     imageBox: {
         display: 'flex',
         flexWrap: 'wrap',
         height: '150px',
-        width: '150px',
+        width: '180px',
         backgroundColor: 'white',
         marginRight: theme.spacing(3),
         [theme.breakpoints.down("md")]: {
-            height: '100px',
-            width: '100px'
+            height: '120px',
+            width: '160px'
         },
         [theme.breakpoints.down("sm")]: {
             height: '70px',
-            width: '70px'
+            width: '90px'
         },
     },
     logoutGrid: {
@@ -63,7 +58,7 @@ const UseStyles = makeStyles({
         justifyContent: 'right'
     },
     logoutButton: {
-        height: '25%',
+        height: '30%',
     }
 
 })
@@ -77,13 +72,12 @@ function UserPageHeader(props: UserPageHeaderProps): JSX.Element {
             className={classes.gridContainer}
         >
             <Grid className={classes.mainGrid} item xs={10}>
-                {props.img !== undefined ?
+                {props.img !== undefined &&
                     <CardMedia className={classes.imageBox} image={props.img} />
-                    : <div></div>
-                }
+                    }
 
                 <Box className={classes.mainText}>
-                    <Typography variant="h3">
+                    <Typography variant='h3' fontWeight={theme.typography.fontWeightMedium}>
                         {props.name}
                     </Typography >
 
@@ -92,29 +86,30 @@ function UserPageHeader(props: UserPageHeaderProps): JSX.Element {
                     </Typography>
 
                     <Typography className={classes.mainTextCoupons} variant="body2" >
-                        {props.text}
+                        {props.text !== undefined && props.text}
                     </Typography>
                 </Box>
             </Grid>
             <Grid className={classes.logoutGrid} item xs={2}>
-                <Button
-                    className={classes.logoutButton}
-                    onClick={() => {
-                        Logout()
-                        history.push("/home")
-                    }}
-                    variant="contained"
-                    color="secondary"
-                    sx={{
-                        fontFamily: 'Kanit',
-                        fontWeight: theme.typography.fontWeightMedium,
-                        color: theme.palette.secondary.light,
-                    }}
+                {props.userPage &&
+                    <Button
+                        className={classes.logoutButton}
+                        onClick={() => {
+                            Logout()
+                            history.push("/home")
+                        }}
+                        variant="contained"
+                        color="secondary"
+                        sx={{
+                            fontFamily: 'Kanit',
+                            fontWeight: theme.typography.fontWeightMedium,
+                            color: theme.palette.secondary.light,
+                        }}
 
-                    size="large">
+                        size="large">
                         logout
 
-                </Button>
+                    </Button>}
             </Grid>
         </Grid>
     );
