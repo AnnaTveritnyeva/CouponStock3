@@ -56,7 +56,6 @@ function CompanyTable(): JSX.Element {
                             bgcolor: theme.palette.secondary.dark,
                             color: theme.palette.primary.contrastText
                         }
-
                     }}
                 >
                     <Typography
@@ -121,11 +120,13 @@ function CompanyTable(): JSX.Element {
             </Table>
 
             <MyModal
+                title="Add New Company"
                 open={addCompanyOpen}
                 close={() => setAddCompanyOpen(false)}
                 content={<AddCompanyForm />}
             />
             <MyModal
+                title="Update Company"
                 open={updateCompanyOpen}
                 close={() => setUpdateCompnayOpen(false)}
                 content={<UpdateCompanyForm company={companyToUpdate} />}

@@ -110,11 +110,13 @@ function CustomerTable(): JSX.Element {
             </Table>
 
             <MyModal
+                title="Add New Customer"
                 open={addCustomerOpen}
                 close={() => setAddCustomerOpen(false)}
                 content={<AddCustomerForm />}
             />
             <MyModal
+                title="Update Customer"
                 open={updateCustomerOpen}
                 close={() => setUpdateCustomerOpen(false)}
                 content={<UpdateCustomerForm customer={customerToUpdate} />}
