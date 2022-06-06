@@ -21,7 +21,7 @@ class DevelopmentGlobals extends Globals{
     public company={
         addCoupon:this.urls.baseURL+ "company/addCoupon" ,
         deleteCoupon:this.urls.baseURL+  "company/deleteCoupon/",
-        updateCoupon:this.urls.baseURL+  "company/updateCompany",
+        updateCoupon:this.urls.baseURL+  "company/updateCoupon",
         getCompanyCoupons:this.urls.baseURL+  "company/getCompanyCoupons",
         getCompanyCouponsByCategory:this.urls.baseURL+  "company/getCompanyCouponsByCategory/",
         getCompanyCouponsByMaxPrice:this.urls.baseURL+  "company/getCompanyCouponsByMaxPrice/",
@@ -73,7 +73,7 @@ class ProductionGlobals extends Globals{
     public company={
         addCoupon:this.urls.baseURL+ "company/addCoupon" ,
         deleteCoupon:this.urls.baseURL+  "company/deleteCoupon/",
-        updateCoupon:this.urls.baseURL+  "company/updateCompany",
+        updateCoupon:this.urls.baseURL+  "company/updateCoupon",
         getCompanyCoupons:this.urls.baseURL+  "company/getCompanyCoupons",
         getCompanyCouponsByCategory:this.urls.baseURL+  "company/getCompanyCouponsByCategory/",
         getCompanyCouponsByMaxPrice:this.urls.baseURL+  "company/getCompanyCouponsByMaxPrice/",
@@ -103,8 +103,6 @@ class ProductionGlobals extends Globals{
         Login:this.urls.baseURL+"authentication/login"
     }
 }
-
-
 
 const globals = process.env.NODE_ENV === 'production' ? new ProductionGlobals : new DevelopmentGlobals;
 
