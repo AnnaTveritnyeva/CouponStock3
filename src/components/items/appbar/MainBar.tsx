@@ -1,19 +1,15 @@
-import { ButtonGroup, Grid, IconButton,  Toolbar, Typography,Drawer, MenuList } from "@mui/material";
+import { ButtonGroup, Grid, IconButton, Toolbar, Typography, Drawer, MenuList, Popper, Box, Divider, MenuItem } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import Logo from "../../../assets/logo.svg.png";
 import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from "react-router-dom";
 import { theme } from "../../../theme";
-import { GetNumOfCartCoupons, getUserRole } from "../../../redux/selector";
+import { getUserRole } from "../../../redux/selector";
 import { Role } from "../../../model/Role";
-import { CategoriesMenu, CopmaniesMenu, UserMenu } from "./SideBar";
 import { FaShoppingCart, FaUser } from "react-icons/fa"
 import { TiThMenu } from "react-icons/ti"
-
-
-
-
+import { CategoriesMenu, CopmaniesMenu, UserMenu } from "./MenuComponents";
 
 const UseStyles = makeStyles({
     toolbar: {
@@ -27,7 +23,6 @@ const UseStyles = makeStyles({
         [theme.breakpoints.down("md")]: {
             marginBottom: theme.spacing(2),
         }
-
     },
     gridLeft: {
         display: 'flex',
@@ -37,9 +32,6 @@ const UseStyles = makeStyles({
     gridRight: {
         display: 'flex', justifyContent: 'flex-end',
         alignItems: 'center',
-        [theme.breakpoints.down("sm")]: {
-            display: 'none'
-        }
     },
     icons: {
         marginRight: theme.spacing(3),
@@ -57,70 +49,31 @@ const UseStyles = makeStyles({
             cursor: "pointer"
         }
     },
-    search: {
-        marginLeft: theme.spacing(5),
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#AFC2C2',
-        borderRadius: "15px",
-        [theme.breakpoints.down("md")]: {
-            display: 'none'
-        },
-        "&:hover": {
-            backgroundColor: theme.palette.common.white,
-        }
-    },
-    searchInput: {
-        color: theme.palette.common.white,
-        marginLeft: theme.spacing(1),
-        width: '100%'
-    },
-    badge: {
-
-    },
     menu: {
         [theme.breakpoints.up("sm")]: {
             display: 'none'
         }
-
-    },
-    loginButton: {
-        backgroundColor: theme.palette.secondary.main,
-
-
     },
     logoSVG: {
         height: '3rem',
         [theme.breakpoints.down("sm")]: {
             height: '30px'
         }
-    }
+    },
+    optionBox: {
+        backgroundColor: "white",
+        borderRadius: '15px',
 
+    }
 })
 
 
-
-
-
-
 function MainBar(): JSX.Element {
+    const [phoneMenuOpen, setPhoneMenuOpen] = useState<boolean>(false)
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
     const classes = UseStyles();
     const history = useHistory();
-    const [phoneMenuOpen, setPhoneMenuOpen] = useState<boolean>(false)
-
-
-    function RightSection() {
-        switch (getUserRole()) {
-            case Role.GUEST:
-                return "Login";
-            case Role.ADMIN:
-                return "Admin"
-            case Role.COMPANY:
-                return "User"
-            case Role.CUSTOMER:
-                return "User"
-        }
-    }
 
     const openMenu = () => {
         setPhoneMenuOpen(true);
@@ -130,29 +83,27 @@ function MainBar(): JSX.Element {
         setPhoneMenuOpen(false);
     }
 
-    const handleLogoClick = (args: SyntheticEvent) => {
-        console.log("go to home")
-    }
-
     const handleUserClick = () => {
         getUserRole() === Role.GUEST ? history.push("/login") : history.push("/user")
     }
 
+    const handleOpenUserMenu = (args: SyntheticEvent) => {
+        setAnchorEl(args.currentTarget as HTMLElement);
+    }
 
-
-    useEffect(() => {
-
-    }, [GetNumOfCartCoupons])
+    const handleCloseUserMenu = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <Toolbar className={classes.toolbar} >
             <Grid className={classes.gridContainer} container >
-                <Grid item sm={1}>
-
-                </Grid>
-                <Grid className={classes.gridLeft} item xs={12} sm={7}>
+                <Grid item sm={1} />
+                <Grid className={classes.gridLeft} item xs={11} sm={7}>
                     <div className={classes.menu}>
-                        <IconButton className={classes.icons} onClick={openMenu}
+                        <IconButton
+                            className={classes.icons}
+                            onClick={openMenu}
                             sx={{ color: theme.palette.common.black }}
                             size="medium"
                         >
@@ -170,21 +121,16 @@ function MainBar(): JSX.Element {
                             Coupon
                             <img src={Logo} className={classes.logoSVG} alt="" />
                             Stock
-
                         </Typography>
                     </div>
                 </Grid>
-                <Grid className={classes.gridRight} item sm={3}>
 
-
-
+                <Grid className={classes.gridRight} item xs={1} sm={3}>
                     <div className={classes.icons}>
-
                         <ButtonGroup >
                             <IconButton
                                 sx={{ color: theme.palette.secondary.contrastText }}
                                 onClick={() => history.push("/cart")}
-
                                 size="medium"
                             >
                                 <FaShoppingCart />
@@ -193,36 +139,77 @@ function MainBar(): JSX.Element {
                                 style={{ color: theme.palette.common.black }}
                                 onClick={handleUserClick}
                                 size="medium"
+                                onMouseEnter={handleOpenUserMenu}
+                                sx={{
+                                    [theme.breakpoints.down("sm")]: {
+                                        display: 'none'
+                                    }
+                                }}
                             >
-                                <FaUser
-                                />
+                                <FaUser />
                             </IconButton>
                         </ButtonGroup>
-
                     </div>
-
                 </Grid>
-                <Grid item sm={1}>
-
-                </Grid>
+                <Grid item sm={1} />
             </Grid>
+
+            <Popper
+                open={open}
+                anchorEl={anchorEl}
+                onClick={handleCloseUserMenu}
+                onMouseLeave={handleCloseUserMenu}
+                placement="bottom"
+                color="primary"
+            >
+                <Box className={classes.optionBox}>
+                    <UserMenu />
+                </Box>
+            </Popper>
 
             <Drawer
                 variant="temporary"
                 open={phoneMenuOpen}
-                sx={{ width: "100vw" }}
+                sx={{ width: "100vw", display: 'flex' }}
             >
                 <MenuList sx={{ width: "100vw" }} onClick={closeMenu}>
-                    <IconButton onClick={closeMenu}>
-                        <CloseIcon />
-                    </IconButton>
+                    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'end' }}>
+                        <IconButton onClick={closeMenu} >
+                            <CloseIcon />
+                        </IconButton>
+                    </Box>
+                    <MenuItem onClick={() => history.push("/allCoupons")} sx={{ padding: theme.spacing(1) }}>
+                        All Coupons
+                    </MenuItem>
+                    <Typography
+                        variant="h6"
+                        fontWeight={theme.typography.fontWeightMedium}
+                        sx={{ padding: theme.spacing(1) }}
+                    >
+                        Categories
+                    </Typography>
+                    <Divider />
                     <CategoriesMenu />
+                    <Typography
+                        variant="h6"
+                        fontWeight={theme.typography.fontWeightMedium}
+                        sx={{ padding: theme.spacing(1) }}
+                    >
+                        Companies
+                    </Typography>
+                    <Divider />
                     <CopmaniesMenu />
+                    <Typography
+                        variant="h6"
+                        fontWeight={theme.typography.fontWeightMedium}
+                        sx={{ padding: theme.spacing(1) }}
+                    >
+                        User
+                    </Typography>
+                    <Divider />
                     <UserMenu />
                 </MenuList>
             </Drawer>
-
-
         </Toolbar>
     );
 }
