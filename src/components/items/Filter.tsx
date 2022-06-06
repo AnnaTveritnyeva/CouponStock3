@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, MenuItem, MenuList, Slider, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 import { Category, CategoryValue } from "../../model/Category";
 import { Coupon } from "../../model/Coupon";
 import { theme } from "../../theme";
@@ -13,21 +13,12 @@ interface FilterProps {
     onReset: any;
 }
 
-const UseStyles = makeStyles({
-    sliderFilter: {
-    },
-    card: {
-
-    }
-})
-
 export interface FilterModel {
     price: number;
     category: Category | String;
 }
 
 function Filter(props: FilterProps): JSX.Element {
-    const classes = UseStyles();
 
     const getMaxPrice = (): number => {
         return Math.max(...props.coupons.map(coupon => { return coupon.price; }));
@@ -37,6 +28,7 @@ function Filter(props: FilterProps): JSX.Element {
         return Math.min(...props.coupons.map(coupon => { return coupon.price; }));
     }
 
+    let location = useLocation()
     const [price, setPrice] = useState<number>(getMaxPrice());
     const [category, setCategory] = useState<Category | string>("");
 
@@ -58,19 +50,22 @@ function Filter(props: FilterProps): JSX.Element {
         setCategory("")
         if (typeof newValue === 'number') {
             setPrice(newValue);
-
-
         }
     };
+
+    useEffect(() => {
+        setPrice(getMaxPrice())
+    }, [location])
+
     return (
         <form onSubmit={handleSubmit(props.onSubmit)}>
             <SingleCard title="Filter By Price" content={
                 <div>
                     <Typography>
-                        Show Me Coupons Up To: {price} $
+                        {props.coupons.length > 0 && "Show Me Coupons Up To:  " + price + "$"}
                     </Typography>
 
-                    <Slider className={classes.sliderFilter}
+                    <Slider
                         defaultValue={price}
                         value={price}
                         aria-label="Default"
@@ -78,7 +73,7 @@ function Filter(props: FilterProps): JSX.Element {
                         min={getMinPrice()}
                         max={getMaxPrice()}
                         onChange={handlePriceChange}
-                        disabled={getMinPrice() === getMaxPrice()}
+                        disabled={props.coupons.length === 0}
                     />
 
                     {setValue("price", price)}
@@ -89,7 +84,6 @@ function Filter(props: FilterProps): JSX.Element {
             <SingleCard title="Filter By Category" content={
                 <div>
                     <MenuList
-                        className={classes.card}
                         variant="selectedMenu"
                     >
                         {CategoryValue.map(categoryOption =>
