@@ -1,8 +1,7 @@
 import { alpha, Box, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
-import { GetCompanies, GetCustomers} from "../../../redux/selector";
+import { GetCompanies, GetCustomers } from "../../../redux/selector";
 import UserPageHeader from "./UserPageHeader";
-import makeStyles from "@mui/styles/makeStyles";
 import CompanyTable from "./admin/CompanyTable";
 import CustomerTable from "./admin/CustomerTable";
 import { theme } from "../../../theme";
@@ -12,12 +11,7 @@ enum TabOptions {
     COMPANIES = "Companies"
 }
 
-const UseStyles = makeStyles({
-
-});
-
 function UserPageAdmin(): JSX.Element {
-    const classes = UseStyles();
     const [value, setValue] = useState<TabOptions>(TabOptions.CUSTOMERS);
 
     const handleTableChange = (event: SyntheticEvent, newValue: TabOptions) => {
@@ -27,22 +21,27 @@ function UserPageAdmin(): JSX.Element {
     function ShowTable() {
         switch (value) {
             case TabOptions.CUSTOMERS:
-                return <CustomerTable/>;
+                return <CustomerTable />;
             case TabOptions.COMPANIES:
-                return <CompanyTable/>;
+                return <CompanyTable />;
         }
     }
 
     return (
         <div>
-            <UserPageHeader name={"Admin"} text={"Total customers in system: " + GetCustomers().length +
-                " Total compnies in the system:" + GetCompanies().length} />
+            <UserPageHeader
+                name={"Admin"}
+                text={value === TabOptions.CUSTOMERS ?
+                    "Total customers: " + GetCustomers().length :
+                    " Total companies: " + GetCompanies().length}
+                userPage={true}
+            />
 
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor:alpha(theme.palette.common.white, 0.8)}}>
-                <Tabs 
-                value={value} 
-                onChange={handleTableChange} 
-                variant="fullWidth"
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: alpha(theme.palette.common.white, 0.8) }}>
+                <Tabs
+                    value={value}
+                    onChange={handleTableChange}
+                    variant="fullWidth"
                 >
                     <Tab value={TabOptions.CUSTOMERS} label={TabOptions.CUSTOMERS} />
                     <Tab value={TabOptions.COMPANIES} label={TabOptions.COMPANIES} />
@@ -50,7 +49,6 @@ function UserPageAdmin(): JSX.Element {
             </Box>
             {ShowTable()}
         </div>
-
     )
 }
 
