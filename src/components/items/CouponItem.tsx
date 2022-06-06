@@ -20,29 +20,17 @@ const UseStyles = makeStyles({
         marginBottom: theme.spacing(4),
         "&:hover": {
             boxShadow: '0px 0px 3px 0px #333333'
-
         },
         [theme.breakpoints.down("sm")]: {
             height: '120px'
         },
     },
-    imageBox: {
-
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignContent: 'center',
-        backgroundColor: '#e8e4e6',
-        justifyContent: 'center',
-        alignItems: 'center',
-        justifyItems: 'center'
-    },
     image: {
         height: '180px',
         width: '180px',
         [theme.breakpoints.down("sm")]: {
-            height: '100px',
-            width: '100px',
-
+            height: '120px',
+            width: '120px',
         },
     },
     buttonBox: {
@@ -59,9 +47,6 @@ const UseStyles = makeStyles({
         borderColor: theme.palette.secondary.light,
         paddingInline: theme.spacing(4)
     },
-    imageGrid: {
-        justifyContent: 'center'
-    },
     text: {
         display: 'flex',
         flexDirection: 'column',
@@ -71,9 +56,6 @@ const UseStyles = makeStyles({
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         marginLeft: theme.spacing(1)
-
-
-
     },
     gridContainer: {
         display: 'flex'
@@ -94,11 +76,11 @@ const UseStyles = makeStyles({
             display: 'none',
         }
     }
-
 });
 
 function CouponItem(props: CouponItemProps): JSX.Element {
     const history = useHistory();
+    const classes = UseStyles();
 
     const handleClick = () => {
         history.push({ pathname: "/coupon/:" + props.coupon.id, state: props.coupon });
@@ -106,11 +88,10 @@ function CouponItem(props: CouponItemProps): JSX.Element {
 
     const handleBuyNow = (coupon: Coupon) => {
         CustomerAxios.addPurchase(coupon)
-            .then(res => notify.success(coupon.title + " successfully purchased!"))
+            .then(() => notify.success(coupon.title + " successfully purchased!"))
             .catch(err => notify.error(err.response.data))
     }
 
-    const classes = UseStyles();
     return (
         <Card className={classes.card}>
             <div onClick={handleClick}>
@@ -141,8 +122,7 @@ function CouponItem(props: CouponItemProps): JSX.Element {
                         <Typography
                             variant="caption"
                             align="right"
-                            color={theme.palette.primary.light
-                            }
+                            color={theme.palette.primary.light}
                             fontWeight={theme.typography.fontWeightMedium}
                         >
                             only {props.coupon.amount} left!
@@ -181,7 +161,6 @@ function CouponItem(props: CouponItemProps): JSX.Element {
                                 size="large"
                                 sx={{
                                     fontFamily: 'Kanit',
-                                    fontWeight: theme.typography.fontWeightMedium,
                                     paddingInline: theme.spacing(1),
                                     color: theme.palette.secondary.dark
                                 }}
