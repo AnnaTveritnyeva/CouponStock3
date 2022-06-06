@@ -74,7 +74,7 @@ function Footer(): JSX.Element {
                 <Grid item md={3} className={classes.onlyWebText}>
                     <Typography
                         variant="h6"
-                        color={theme.palette.secondary.dark}
+                        color={theme.palette.primary.contrastText}
                         fontWeight={theme.typography.fontWeightMedium}
                         align="center"
                     >
@@ -83,6 +83,7 @@ function Footer(): JSX.Element {
                     <br />
                     {CategoryValue.map(category =>
                         <Link
+                            key={category}
                             className={classes.link}
                             onClick={() => history.push({ pathname: "/category/:" + category, state: category })}
                             color={theme.palette.common.black}
@@ -96,7 +97,7 @@ function Footer(): JSX.Element {
                 <Grid item md={3} className={classes.onlyWebText}>
                     <Typography
                         variant="h6"
-                        color={theme.palette.secondary.dark}
+                        color={theme.palette.primary.contrastText}
                         fontWeight={theme.typography.fontWeightMedium}
                         align="center"
                     >
@@ -105,6 +106,7 @@ function Footer(): JSX.Element {
                     <br />
                     {GetCompanies().slice(0, 5).map(company =>
                         <Link
+                            key={company.id}
                             className={classes.link}
                             onClick={() => history.push({ pathname: "/company/:" + company.name, state: company })}
                             color={theme.palette.common.black}
@@ -118,7 +120,7 @@ function Footer(): JSX.Element {
                 <Grid item md={3} className={classes.onlyWebText}>
                     <Typography
                         variant="h6"
-                        color={theme.palette.secondary.dark}
+                        color={theme.palette.primary.contrastText}
                         fontWeight={theme.typography.fontWeightMedium}
                         align="center"
                     >
